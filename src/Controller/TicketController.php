@@ -3,6 +3,7 @@
 namespace App\Controller;
 
 use App\Entity\Ticket;
+use App\Form\VisitType;
 use App\Repository\TicketRepository;
 use Doctrine\Common\Persistence\ObjectManager;
 
@@ -24,12 +25,29 @@ use Symfony\Component\HttpFoundation\Request;
 class TicketController extends AbstractController
 {
     /**
-     * @Route("/ticket", name="ticket")
-     * premier passage form
+     * page d'acceuil
+     * @Route("/", name="home")
      */
-    public function index(Request $request/*, TicketRepository $repository, ObjectManager $manager*/): Response
+    public function home()
     {
-        $ticket = new Ticket();
+        return $this->render('ticket/home.html.twig', [
+            "current_menu" => "home"
+        ]);
+    }
+
+    /**
+     * premiere étape de la commmande
+     * @Route("/order", name="order")
+     *
+     */
+    public function order(Request $request/*, TicketRepository $repository, ObjectManager $manager*/): Response
+    {
+        $form = $this->createForm(VisitType::class);
+
+        $form->handleRequest($request);
+    }
+
+       /* $ticket = new Ticket();
 
         $form = $this->createFormBuilder($ticket)
             ->add('visitAt', DateType::class/* [
@@ -41,7 +59,7 @@ class TicketController extends AbstractController
 
                 // adds a class that can be selected in JavaScript
                 'attr' => ['class' => 'js-datepicker'],
-            ]*/)
+            ])
             ->add('type', ChoiceType::class, [
                 'label' => 'Type de billet',
                 'choices' => [
@@ -58,7 +76,7 @@ class TicketController extends AbstractController
 
 
 
-        if ($form->isSubmitted() /*&& $form->isValid()*/) {
+        if ($form->isSubmitted() /*&& $form->isValid()) {
 
             return $this->render('ticket/identification.html.twig', [
                 'ticket' => $ticket,
@@ -79,7 +97,7 @@ class TicketController extends AbstractController
      * @param TicketRepository $ticket
      * @return Response
      */
-    public function identificationTickets(Request $request, TicketRepository $ticket) {
+    /*public function identificationTickets(Request $request, TicketRepository $ticket) {
 
 
         $formm = $this->createFormBuilder($ticket)
@@ -115,17 +133,9 @@ class TicketController extends AbstractController
             'ticket' => $ticket,
             'formm' => $formm->createView()
         ]);
-    }
+    }*/
 
-    /**
-     * @Route("/", name="home")
-     */
-    public function home()
-    {
-        return $this->render('ticket/home.html.twig', [
-            "current_menu" => "home"
-        ]);
-    }
+
 
     /**
      * @Route("/contact", name="contact")

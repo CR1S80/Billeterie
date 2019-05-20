@@ -18,27 +18,27 @@ class CustomerType extends AbstractType
      */
     public function buildForm(FormBuilderInterface $builder, array $options)
     {
-        $builder->add('lastname', TextType::class, array(
+        $builder->add('lastname', TextType::class, [
             'label' => 'Nom',
-            'required' => true))
-            ->add('firstname', TextType::class, array(
+            'required' => true])
+            ->add('firstname', TextType::class, [
                 'label' => 'Prénom',
-                'required' => true))
-            ->add('email', EmailType::class, array(
+                'required' => true])
+            ->add('email', EmailType::class, [
                 'label' => 'Email',
-                'required' => true))
-            ->add('adress', TextType::class, array(
+                'required' => true])
+            ->add('adress', TextType::class, [
                 'label' => 'Adresse',
-                'required' => true))
-            ->add('postCode', TextType::class, array(
+                'required' => true])
+            ->add('postCode', TextType::class, [
                 'label' => 'Code Postal',
-                'required' => true))
-            ->add('city', TextType::class, array(
+                'required' => true])
+            ->add('city', TextType::class, [
                 'label' => 'Ville',
-                'required' => true))
-            ->add('country', CountryType::class, array(
+                'required' => true])
+            ->add('country', CountryType::class, [
                 'label' => 'Pays',
-                'preferred_choices' => array('FR')));
+                'preferred_choices' => ['FR']]);
     }
 
     /**
