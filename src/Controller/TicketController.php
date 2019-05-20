@@ -45,7 +45,13 @@ class TicketController extends AbstractController
         $form = $this->createForm(VisitType::class);
 
         $form->handleRequest($request);
+
+        return $this->render('ticket/order.html.twig', [
+            'form' => $form->createView()
+        ]);
     }
+
+    public function indentification
 
        /* $ticket = new Ticket();
 

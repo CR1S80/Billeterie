@@ -19,9 +19,9 @@ class VisitType extends AbstractType
     public function buildForm(FormBuilderInterface $builder, array $options)
     {
         $builder->add('visitDate', DateType::class, [
-                'label' => 'label.visit.date',
-                'widget' => 'single_text',
-                'attr' => ['class' => 'datepicker'],
+                'label' => 'Date de visite',
+
+                'attr' => ['class' => 'js-datepicker'],
                 'required' => true
             ]
         )
