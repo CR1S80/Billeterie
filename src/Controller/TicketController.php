@@ -3,8 +3,11 @@
 namespace App\Controller;
 
 use App\Entity\Ticket;
+use App\Form\VisitTicketsType;
 use App\Form\VisitType;
+use App\Manager\VisitManager;
 use App\Repository\TicketRepository;
+use App\Service\PublicHolidaysService;
 use Doctrine\Common\Persistence\ObjectManager;
 
 use phpDocumentor\Reflection\Types\This;
@@ -40,18 +43,29 @@ class TicketController extends AbstractController
      * @Route("/order", name="order")
      *
      */
-    public function order(Request $request/*, TicketRepository $repository, ObjectManager $manager*/): Response
+    public function order(Request $request, VisitManager $visitManager, PublicHolidaysService $publicHolidaysService)
     {
-        $form = $this->createForm(VisitType::class);
+        $visit = $visitManager->initVisit();
+        $publicHolidays = $publicHolidaysService->getPublicHolidaysOnTheseTwoYears();
+        $form = $this->createForm(VisitType::class, $visit);
+        $form->handleRequest($request);
+        if($form->isSubmitted() && $form->isValid()) {
+            $visitManager->generateTickets($visit);
+            return $this->redirect($this->generateUrl('app_visit_identify'));
+        }
+        return $this->render('Visit/order.html.twig', array('form' => $form->createView(), 'publicHolidays' => $publicHolidays));
+    }
+
+    public function customerData(Request $request): Response {
+
+        $form = $this->createForm(VisitTicketsType::class);
 
         $form->handleRequest($request);
 
-        return $this->render('ticket/order.html.twig', [
+        return $this->render('ticket/customer.html.twig', [
             'form' => $form->createView()
         ]);
     }
-
-    public function indentification
 
        /* $ticket = new Ticket();
 
@@ -84,7 +98,7 @@ class TicketController extends AbstractController
 
         if ($form->isSubmitted() /*&& $form->isValid()) {
 
-            return $this->render('ticket/identification.html.twig', [
+            return $this->render('ticket/customer.html.twig', [
                 'ticket' => $ticket,
                 'form' => $form,
 
@@ -135,7 +149,7 @@ class TicketController extends AbstractController
 
         //dump($ticket);
 
-        return $this->render('ticket/identification.html.twig', [
+        return $this->render('ticket/customer.html.twig', [
             'ticket' => $ticket,
             'formm' => $formm->createView()
         ]);
