@@ -2,26 +2,13 @@
 
 namespace App\Controller;
 
-use App\Entity\Ticket;
+
 use App\Form\VisitTicketsType;
 use App\Form\VisitType;
-use App\Manager\VisitManager;
-use App\Repository\TicketRepository;
-use App\Service\PublicHolidaysService;
-use Doctrine\Common\Persistence\ObjectManager;
-
 use phpDocumentor\Reflection\Types\This;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
-use Symfony\Component\Form\Extension\Core\Type\BirthdayType;
-use Symfony\Component\Form\Extension\Core\Type\CheckboxType;
-use Symfony\Component\Form\Extension\Core\Type\ChoiceType;
-use Symfony\Component\Form\Extension\Core\Type\CountryType;
-use Symfony\Component\Form\Extension\Core\Type\DateType;
-use Symfony\Component\Form\Extension\Core\Type\TextType;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
-use Symfony\Component\Validator\Constraints\Date;
-use Symfony\Component\Validator\Constraints\DateTime;
 use Symfony\Component\HttpFoundation\Request;
 
 
@@ -43,24 +30,39 @@ class TicketController extends AbstractController
      * @Route("/order", name="order")
      *
      */
-    public function order(Request $request, VisitManager $visitManager, PublicHolidaysService $publicHolidaysService)
+    public function order(Request $request/*,VisitManager $visitManager, PublicHolidaysService $publicHolidaysService*/)
     {
-        $visit = $visitManager->initVisit();
-        $publicHolidays = $publicHolidaysService->getPublicHolidaysOnTheseTwoYears();
-        $form = $this->createForm(VisitType::class, $visit);
+        //$visit = $visitManager->initVisit();
+        //$publicHolidays = $publicHolidaysService->getPublicHolidaysOnTheseTwoYears();
+        $form = $this->createForm(VisitType::class/*, $visit*/);
         $form->handleRequest($request);
         if($form->isSubmitted() && $form->isValid()) {
-            $visitManager->generateTickets($visit);
-            return $this->redirect($this->generateUrl('app_visit_identify'));
+
+            dump($form->getData());
+            $em = $this->getDoctrine()->getManager();
+            $em->persist($form->getData());
+            $em->flush();
+
+
+            //$visitManager->generateTickets($visit);
+            return $this->redirect('customer');
         }
-        return $this->render('Visit/order.html.twig', array('form' => $form->createView(), 'publicHolidays' => $publicHolidays));
+        return $this->render('ticket/order.html.twig', array('form' => $form->createView()/*, 'publicHolidays' => $publicHolidays*/));
     }
 
+    /**
+     * @Route ("/customer", name="customer")
+     * @param Request $request
+     * @return Response
+     */
     public function customerData(Request $request): Response {
 
+        $test = new 
         $form = $this->createForm(VisitTicketsType::class);
 
         $form->handleRequest($request);
+
+        dump($form);
 
         return $this->render('ticket/customer.html.twig', [
             'form' => $form->createView()

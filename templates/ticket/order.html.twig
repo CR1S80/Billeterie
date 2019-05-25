@@ -16,7 +16,10 @@
                             <p class="h5 p-2">1. Choisissez votre date de visite
                             <p>
                             <div class="container">
+
                                 {{ form_start(form, {'attr': {'class': 'was-validated'}}) }}
+
+                                {{ form_row(form._token) }}
 
                                 {{ form_row(form.visitDate) }}
                                 <br/>

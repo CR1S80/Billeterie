@@ -58,12 +58,12 @@ class Visit
 
 
     /**
-     * @ORM\OneToMany(targetEntity="App\Entity\ticket", mappedBy="visit")
+     * @ORM\OneToMany(targetEntity="App\Entity\Ticket", mappedBy="visit")
      */
     private $tickets;
 
     /**
-     * @ORM\ManyToOne(targetEntity="App\Entity\customer", inversedBy="visits")
+     * @ORM\ManyToOne(targetEntity="App\Entity\Customer", inversedBy="visits")
      * @ORM\JoinColumn(nullable=false)
      */
     private $customer;

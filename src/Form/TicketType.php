@@ -4,6 +4,7 @@
 namespace App\Form;
 
 
+use App\Entity\Ticket;
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\Extension\Core\Type\BirthdayType;
 use Symfony\Component\Form\Extension\Core\Type\CheckboxType;
@@ -23,8 +24,8 @@ class TicketType extends AbstractType
         $builder->add('lastname', TextType::class, [
             'label' => 'Nom',
             'required' => true])
-            ->add('Prénom', TextType::class, [
-                'label' => 'label.firstname.visitor',
+            ->add('firstname', TextType::class, [
+                'label' => 'Prénom',
                 'required' => true])
             ->add('country', CountryType::class, [
                 'label' => 'Nationalité',

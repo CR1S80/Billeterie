@@ -28,10 +28,3 @@ services:
     # please note that last definitions always *replace* previous ones
 
         # explicitly configure the service
-        App\Service\EmailService:
-            arguments:
-                $emailfrom: 'manager@example.com'
-            _defaults:
-                bind:
-                    string $emailfrom: 'manager@example.com'
-
