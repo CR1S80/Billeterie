@@ -19,6 +19,11 @@ class Visit
     const NB_TICKET_MAX_DAY = 1000;
     const LIMITED_HOUR_TODAY = 16;
 
+    const IS_VALID_INIT = ["order"];
+    const IS_VALID_WITH_TICKET = ["order", "customer"];
+    const IS_VALID_WITH_CUSTOMER = ["order", "customer", "adress"];
+    const IS_VALID_WITH_BOOKINGCODE = ["order", "customer", "adress", "pay"];
+
     /**
      * @ORM\Id()
      * @ORM\GeneratedValue()

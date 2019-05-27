@@ -1,0 +1,114 @@
+{% extends "base.html.twig" %}
+    {% block title 'Reservation de billet' %}
+
+    {% form_theme form 'bootstrap_4_layout.html.twig' %}
+
+    {% block body %}
+
+        <div class="bg"
+             style="background:url({{ asset('build/images/louvre-billet.png') }}) fixed no-repeat !important;">
+            <div class="home m-auto" style="overflow: unset;">
+
+
+                <div class="container">
+                    <div class="row">
+                        <div class="col-8 p-0">
+                            <p class="h5 p-2">1. Choisissez votre date de visite
+                            <p>
+                                <div class="container">
+
+                                    <div class="row">
+                                        {{ form_start(form, {'attr': {'class': 'was-validated'}}) }}
+
+
+
+
+                                        <div class="row">
+                                            <div class="col-sm-1">
+                                            </div>
+
+                                            <div class="col-sm-11">
+                                                <button type="submit" class="btn btn-success">{{ 'button.validate' | trans }}</button>
+                                            </div>
+                                        </div>
+
+
+
+                                        {{ form_end(form) }}<br/>
+
+
+
+                                        <div class="row">
+                            <div class="col-sm-1">
+                            </div>
+
+                            <div class="col-sm-11">
+                                <button type="submit" class="btn btn-success">Suivant</button>
+                            </div>
+                        </div>
+
+
+                    </div>
+                </div>
+                <div class="col-4 p-0">
+
+                    <div class="well" style="background-color: #f5f5f5">
+                        <div class="card-header"> HORAIRES</div>
+                        <div class="card-body text-secondary">
+                            <ul>
+                                <li>Lundi : 9 h - 18 h</li>
+                                <li>Mardi : fermé</li>
+                                <li>Mercredi : 9 h - 21h45</li>
+                                <li>Jeudi : 9 h - 18 h</li>
+                                <li>Vendredi : 9 h - 21h45</li>
+                                <li>Samedi : 9 h - 18 h</li>
+                                <li>Dimanche : 9 h - 18 h</li>
+                            </ul>
+                        </div>
+                        <br>
+                        <div class="card-header">TARIFS</div>
+                        <div class="card-body text-secondary">
+                            <ul>
+                                <li>Normal : {{ constant('App\\Entity\\Ticket::PRICE_ADULT') }} €</li>
+                                <li>Enfant : {{ constant('App\\Entity\\Ticket::PRICE_CHILD') }} € (1)</li>
+                                <li>Senior : {{ constant('App\\Entity\\Ticket::PRICE_SENIOR') }} € (2)</li>
+                                <li>Réduit : {{ constant('App\\Entity\\Ticket::PRICE_DISCOUNT') }} € (3)</li>
+                            </ul>
+                        </div>
+                        <br>
+                        <div class="card-header">CONDITIONS</div>
+                        <div class="card-body text-secondary">
+                            <ul>
+                                <li>(1) Jusqu'à {{ constant('App\\Entity\\Ticket::AGE_ADULT') }} ans. gratuit
+                                    pour
+                                    les enfants de moins de {{ constant('App\\Entity\\Ticket::AGE_CHILD') }} ans
+                                </li>
+                                <li>(2) A partir de {{ constant('App\\Entity\\Ticket::AGE_SENIOR') }} ans</li>
+                                <li>(3) Sous conditions , un justificatif vous sera demandé à l'entrée
+                                    (étudiants, militaires, personnel du musée, etc.)
+                                </li>
+
+                            </ul>
+                        </div>
+                    </div>
+
+
+                </div>
+            </div>
+        </div>
+        </div>
+
+        </div>
+        </div>
+
+
+
+
+
+
+
+
+
+    {% endblock %}
+
+

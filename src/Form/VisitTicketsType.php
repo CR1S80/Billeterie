@@ -16,17 +16,20 @@ use Symfony\Component\OptionsResolver\OptionsResolver;
 class VisitTicketsType extends AbstractType
 {
     /**
-     * {@inheritdoc}
+     * @param FormBuilderInterface $builder
+     * @param array $options
      */
     public function buildForm(FormBuilderInterface $builder, array $options)
     {
         $builder->add('tickets',CollectionType::class, [
             'entry_type' => TicketType::class,
-            'allow_add' => true
+            'allow_add' => true,
+            
     ]);
     }
+
     /**
-     * {@inheritdoc}
+     * @param OptionsResolver $resolver
      */
     public function configureOptions(OptionsResolver $resolver)
     {
