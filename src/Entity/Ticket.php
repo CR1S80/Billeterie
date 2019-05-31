@@ -65,6 +65,13 @@ class Ticket
      */
     private $visit;
 
+    /**
+     * @ORM\Column(type="string", length=255)
+     */
+    private $country;
+
+
+
     public function getId(): ?int
     {
         return $this->id;
@@ -167,6 +174,8 @@ class Ticket
 
         return $this;
     }
+
+
 
 
 

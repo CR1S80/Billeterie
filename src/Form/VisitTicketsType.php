@@ -5,6 +5,7 @@ namespace App\Form;
 
 
 
+use App\Entity\Customer;
 use App\Entity\Ticket;
 use App\Entity\Visit;
 use App\Form\TicketType;
@@ -24,7 +25,7 @@ class VisitTicketsType extends AbstractType
         $builder->add('tickets',CollectionType::class, [
             'entry_type' => TicketType::class,
             'allow_add' => true,
-            
+
     ]);
     }
 
@@ -34,7 +35,7 @@ class VisitTicketsType extends AbstractType
     public function configureOptions(OptionsResolver $resolver)
     {
         $resolver->setDefaults(array(
-            'data_class' => Ticket::class,
+            'data_class' => Visit::class,
             //'validation_groups' => array('identification_registration')
         ));
     }

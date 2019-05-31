@@ -61,18 +61,20 @@ class TicketController extends AbstractController
     public function customerData(Request $request, VisitManager $visitManager): Response
     {
 
-        $visit = $visitManager->getCurrentVisit(Visit::IS_VALID_INIT);
+        $visit = $visitManager->getCurrentVisit();
 
-        $form = $this->createForm(VisitTicketsType::class);
+        $form = $this->createForm(VisitTicketsType::class, $visit);
 
         $form->handleRequest($request);
+
+        dump($visit);
 
 
         if ($form->isSubmitted() && $form->isValid()) {
             $visitManager->calculPrice($visit);
             return $this->redirect($this->generateUrl('adress'));
         }
-        return $this->render('ticket/customer.html.twig', array('form' => $form->createView(), 'visit' => $visit));
+        return $this->render('ticket/customer.html.twig', array('form' => $form->createView()));
     }
 
     /**

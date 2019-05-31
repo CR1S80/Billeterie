@@ -20,6 +20,8 @@
 
                                 {{ form_start(form, {'attr': {'class': 'was-validated'}}) }}
 
+                                {{ form_row(form.tickets) }}
+
                                 {% for ticket in form.tickets %}
 
                                     <div class="num-billet">{{ 'ticket' | trans }} n°{{ loop.index }}</div><br/>
@@ -31,7 +33,7 @@
 
                                     {{ form_row(ticket.birthday) }}<br/>
 
-                                    {{ form_row(ticket.discount) }}<br/>
+                                    {{ form_row(ticket.reducedPrice) }}<br/>
 
                                     {% if not loop.last %}<hr/> {% endif %}<br/>
 
@@ -42,7 +44,7 @@
                                     </div>
 
                                     <div class="col-sm-11">
-                                        <button type="submit" class="btn btn-success">{{ 'button.validate' | trans }}</button>
+                                        <button type="submit" class="btn btn-success">{{ 'Suivant' | trans }}</button>
                                     </div>
                                 </div>
 

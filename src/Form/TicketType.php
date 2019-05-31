@@ -4,6 +4,7 @@
 namespace App\Form;
 
 
+use App\Entity\Customer;
 use App\Entity\Ticket;
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\Extension\Core\Type\BirthdayType;
@@ -21,8 +22,7 @@ class TicketType extends AbstractType
      */
     public function buildForm(FormBuilderInterface $builder, array $options)
     {
-        $builder->add('')
-            ->add('lastname', TextType::class, [
+        $builder->add('lastname', TextType::class, [
             'label' => 'Nom',
             'required' => true])
             ->add('firstname', TextType::class, [
@@ -47,7 +47,7 @@ class TicketType extends AbstractType
     public function configureOptions(OptionsResolver $resolver)
     {
         $resolver->setDefaults(array(
-            'data_class' => Ticket::class
+            'data_class' => Customer::class
         ));
     }
 

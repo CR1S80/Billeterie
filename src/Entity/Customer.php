@@ -53,14 +53,17 @@ class Customer
      */
     private $country;
 
+
+
     /**
-     * @ORM\OneToMany(targetEntity="App\Entity\Visit", mappedBy="customer")
+     * @ORM\OneToOne(targetEntity="App\Entity\Ticket", inversedBy="customer", cascade={"persist", "remove"})
+     * @ORM\JoinColumn(nullable=true)
      */
-    private $visits;
+    private $customer;
 
     public function __construct()
     {
-        $this->visits = new ArrayCollection();
+
     }
 
     public function getId(): ?int
@@ -152,33 +155,16 @@ class Customer
         return $this;
     }
 
-    /**
-     * @return Collection|Visit[]
-     */
-    public function getVisits(): Collection
+
+
+    public function getCustomer(): ?Ticket
     {
-        return $this->visits;
+        return $this->customer;
     }
 
-    public function addVisit(Visit $visit): self
+    public function setCustomer(Ticket $customer): self
     {
-        if (!$this->visits->contains($visit)) {
-            $this->visits[] = $visit;
-            $visit->setCustomer($this);
-        }
-
-        return $this;
-    }
-
-    public function removeVisit(Visit $visit): self
-    {
-        if ($this->visits->contains($visit)) {
-            $this->visits->removeElement($visit);
-            // set the owning side to null (unless already changed)
-            if ($visit->getCustomer() === $this) {
-                $visit->setCustomer(null);
-            }
-        }
+        $this->customer = $customer;
 
         return $this;
     }

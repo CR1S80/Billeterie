@@ -67,11 +67,7 @@ class Visit
      */
     private $tickets;
 
-    /**
-     * @ORM\ManyToOne(targetEntity="App\Entity\Customer", inversedBy="visits")
-     * @ORM\JoinColumn(nullable=false)
-     */
-    private $customer;
+
 
     public function __construct()
     {
@@ -187,15 +183,5 @@ class Visit
         return $this;
     }
 
-    public function getCustomer(): ?customer
-    {
-        return $this->customer;
-    }
 
-    public function setCustomer(?customer $customer): self
-    {
-        $this->customer = $customer;
-
-        return $this;
-    }
 }
