@@ -79,21 +79,23 @@ class TicketController extends AbstractController
 
     /**
      * @Route ("/adress", name="adress")
+     * @param VisitManager $visitManager
      * @param Request $request
      * @return Response
      */
-    public function adressCustomer(Request $request): Response {
+    public function adressCustomer(Request $request, VisitManager $visitManager): Response {
+
+        $visit = $visitManager->getCurrentVisit();
 
         $form = $this->createForm(CustomerType::class);
 
         $form->handleRequest($request);
 
-        dump($_POST);
+        dump($visit);
 
         return $this->render('ticket/adress.html.twig', [
             'form' => $form->createView(),
-            //'post' => $_POST["visit"],
-            //'tickeDate' => $_POST["visit"]["visitDate"],
+
         ]);
 
 

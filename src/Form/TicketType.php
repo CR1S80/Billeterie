@@ -35,7 +35,7 @@ class TicketType extends AbstractType
             ->add('birthday', BirthdayType::class, [
                 'label' => 'Date de naissance',
                 'required' => true])
-            ->add('discount', CheckboxType::class, [
+            ->add('reducedPrice', CheckboxType::class, [
                 'label' => 'Prix réduit',
                 'required' => false
             ]);
@@ -47,7 +47,7 @@ class TicketType extends AbstractType
     public function configureOptions(OptionsResolver $resolver)
     {
         $resolver->setDefaults(array(
-            'data_class' => Customer::class
+            'data_class' => Ticket::class
         ));
     }
 
