@@ -13,14 +13,10 @@
                 <div class="container">
                     <div class="row">
                         <div class="col-8 p-0">
-                            <p class="h5 p-2">1. Choisissez votre date de visite
-                            <p>
+                            <p class="h5 p-2">1. Choisissez votre date de visite<p>
                             <div class="container">
 
-
                                 {{ form_start(form, {'attr': {'class': 'was-validated'}}) }}
-
-
 
                                 {% for ticket in form.tickets %}
 
@@ -39,19 +35,13 @@
 
                                 {% endfor %}
 
-                                <div class="row">
-                                    <div class="col-sm-1">
-                                    </div>
-
-                                    <div class="col-sm-11">
-                                        <button type="submit" class="btn btn-success">{{ 'Suivant' | trans }}</button>
-                                    </div>
+                                <div class="col-sm-11">
+                                    <button type="submit"
+                                            class="btn btn-success">Suivant
+                                    </button>
                                 </div>
 
-                                {{ form_end(form) }}<br/>
-
-                                </div>
-
+                                {{ form_end(form) }}
 
                             </div>
                         </div>
@@ -85,8 +75,8 @@
                                 <div class="card-body text-secondary">
                                     <ul>
                                         <li>(1) Jusqu'à {{ constant('App\\Entity\\Ticket::AGE_ADULT') }} ans. gratuit
-                                            pour
-                                            les enfants de moins de {{ constant('App\\Entity\\Ticket::AGE_CHILD') }} ans
+                                            pour les enfants de moins
+                                            de {{ constant('App\\Entity\\Ticket::AGE_CHILD') }} ans
                                         </li>
                                         <li>(2) A partir de {{ constant('App\\Entity\\Ticket::AGE_SENIOR') }} ans</li>
                                         <li>(3) Sous conditions , un justificatif vous sera demandé à l'entrée

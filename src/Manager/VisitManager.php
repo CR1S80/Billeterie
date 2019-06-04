@@ -57,11 +57,39 @@ class VisitManager
         return $visit;
     }
 
+    /**
+     * @param Visit $visit
+     * @return Ticket|int
+     */
+    public function calculPrice(Visit $visit)
+    {
+
+        $totalPrice = 0;
+        foreach ($visit->getTickets() as $ticket) {
+            $priceTicket = $this->calculTicketPrice($ticket);
+
+            $totalPrice += $priceTicket;
+
+
+        }
+        $visit->setTotalPrice($totalPrice);
+        return $totalPrice;
+    }
+
+    /**
+     * @param Ticket $ticket
+     * @return Ticket
+     * @throws \Exception
+     */
     public function calculTicketPrice(Ticket $ticket)
     {
+
+
         $birthday = $ticket->getBirthday();
         $today = new \DateTime();
-        $age = date_diff($birthday, $today)->y;
+        $age = \date_diff($birthday, $today)->y;
+
+
 
         if($age < Ticket::AGE_CHILD){ // Bébé
             $price = Ticket::PRICE_FREE;
@@ -81,20 +109,14 @@ class VisitManager
             $price = $price * Ticket::PRICE_HALF_DAY_COEFF;
         }
 
+
+
         $ticket->setPrice($price);
+
         return $ticket;
     }
 
 
-    public function calculPrice(Visit $visit)
-    {
-        $totalPrice = 0;
-        foreach ($visit->getTickets() as $ticket) {
-            $priceTicket = $this->calculTicketPrice($ticket);
-            $totalPrice += $priceTicket;
-        }
-        $visit->setTotalPrice($totalPrice);
-        return $totalPrice;
-    }
+
 
 }

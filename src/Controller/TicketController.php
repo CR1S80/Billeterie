@@ -61,13 +61,13 @@ class TicketController extends AbstractController
     public function customerData(Request $request, VisitManager $visitManager): Response
     {
 
-        $visit = $visitManager->getCurrentVisit();
+
 
         $form = $this->createForm(VisitTicketsType::class, $visit);
 
         $form->handleRequest($request);
 
-        dump($visit);
+
 
 
         if ($form->isSubmitted() && $form->isValid()) {
@@ -85,13 +85,13 @@ class TicketController extends AbstractController
      */
     public function adressCustomer(Request $request, VisitManager $visitManager): Response {
 
-        $visit = $visitManager->getCurrentVisit();
+
 
         $form = $this->createForm(CustomerType::class);
 
         $form->handleRequest($request);
 
-        dump($visit);
+
 
         return $this->render('ticket/adress.html.twig', [
             'form' => $form->createView(),

@@ -30,7 +30,7 @@ class CustomerType extends AbstractType
             ->add('adress', TextType::class, [
                 'label' => 'Adresse',
                 'required' => true])
-            ->add('postCode', TextType::class, [
+            ->add('postalCode', TextType::class, [
                 'label' => 'Code Postal',
                 'required' => true])
             ->add('city', TextType::class, [
