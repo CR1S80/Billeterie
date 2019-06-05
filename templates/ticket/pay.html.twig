@@ -1,114 +1,89 @@
 {% extends "base.html.twig" %}
     {% block title 'Reservation de billet' %}
 
-    {% form_theme form 'bootstrap_4_layout.html.twig' %}
+
 
     {% block body %}
 
-        <div class="bg"
-             style="background:url({{ asset('build/images/louvre-billet.png') }}) fixed no-repeat !important;">
-            <div class="home m-auto" style="overflow: unset;">
 
 
-                <div class="container">
-                    <div class="row">
-                        <div class="col-8 p-0">
-                            <p class="h5 p-2">1. Choisissez votre date de visite<p>
-                            <div class="container">
 
-                                {{ form_start(form, {'attr': {'class': 'was-validated'}}) }}
-
-                                {{ form_start(form, {'attr': {'class': 'was-validated'}}) }}
-
-
-                                <div class="num-billet">{{ 'Facture pour' | trans }} :</div><br/>
-
-                                {{ form_row(form.lastname) }}<br/>
-
-                                {{ form_row(form.firstname) }}<br/>
-
-                                {{ form_row(form.email) }}<br/>
-
-
-                                <div class="num-billet">{{ 'Adresse de facturation' | trans }} :</div><br/>
-
-                                {{ form_row(form.adress) }}<br/>
-
-                                {{ form_row(form.postalCode) }}<br/>
-
-                                {{ form_row(form.city) }}<br/>
-
-                                {{ form_row(form.country) }}<br/>
-
-                                <div class="col-sm-11">
-                                    <button type="submit"
-                                            class="btn btn-success">Suivant
-                                    </button>
-                                </div>
-
-                                {{ form_end(form) }}
-
-                            </div>
-                        </div>
-                        <div class="col-4 p-0">
-
-                            <div class="well" style="background-color: #f5f5f5">
-                                <div class="card-header"> HORAIRES</div>
-                                <div class="card-body text-secondary">
-                                    <ul>
-                                        <li>Lundi : 9 h - 18 h</li>
-                                        <li>Mardi : fermé</li>
-                                        <li>Mercredi : 9 h - 21h45</li>
-                                        <li>Jeudi : 9 h - 18 h</li>
-                                        <li>Vendredi : 9 h - 21h45</li>
-                                        <li>Samedi : 9 h - 18 h</li>
-                                        <li>Dimanche : 9 h - 18 h</li>
-                                    </ul>
-                                </div>
-                                <br>
-                                <div class="card-header">TARIFS</div>
-                                <div class="card-body text-secondary">
-                                    <ul>
-                                        <li>Normal : {{ constant('App\\Entity\\Ticket::PRICE_ADULT') }} €</li>
-                                        <li>Enfant : {{ constant('App\\Entity\\Ticket::PRICE_CHILD') }} € (1)</li>
-                                        <li>Senior : {{ constant('App\\Entity\\Ticket::PRICE_SENIOR') }} € (2)</li>
-                                        <li>Réduit : {{ constant('App\\Entity\\Ticket::PRICE_DISCOUNT') }} € (3)</li>
-                                    </ul>
-                                </div>
-                                <br>
-                                <div class="card-header">CONDITIONS</div>
-                                <div class="card-body text-secondary">
-                                    <ul>
-                                        <li>(1) Jusqu'à {{ constant('App\\Entity\\Ticket::AGE_ADULT') }} ans. gratuit
-                                            pour les enfants de moins
-                                            de {{ constant('App\\Entity\\Ticket::AGE_CHILD') }} ans
-                                        </li>
-                                        <li>(2) A partir de {{ constant('App\\Entity\\Ticket::AGE_SENIOR') }} ans</li>
-                                        <li>(3) Sous conditions , un justificatif vous sera demandé à l'entrée
-                                            (étudiants, militaires, personnel du musée, etc.)
-                                        </li>
-
-                                    </ul>
-                                </div>
-                            </div>
-
-
-                        </div>
-                    </div>
+        <form action="" method="post" id="payment-form">
+            <div class="form-row">
+                <label for="card-element">
+                    Credit or debit card
+                </label>
+                <div id="card-element">
+                    <!-- A Stripe Element will be inserted here. -->
                 </div>
+
+                <!-- Used to display form errors. -->
+                <div id="card-errors" role="alert"></div>
             </div>
 
-        </div>
-        </div>
-
-
-
-
-
-
-
+            <button>Submit Payment</button>
+        </form>
 
 
     {% endblock %}
 
+{% block javascripts %}
+    <script>
+        var stripe = Stripe('pk_test_TYooMQauvdEDq54NiTphI7jx');
+        var elements = stripe.elements();
 
+        // Custom styling can be passed to options when creating an Element.
+        var style = {
+            base: {
+                // Add your base input styles here. For example:
+                fontSize: '16px',
+                color: "#32325d",
+            }
+        };
+
+        // Create an instance of the card Element.
+        var card = elements.create('card', {style: style});
+
+        // Add an instance of the card Element into the `card-element` <div>.
+        card.mount('#card-element');
+
+        card.addEventListener('change', function(event) {
+            var displayError = document.getElementById('card-errors');
+            if (event.error) {
+                displayError.textContent = event.error.message;
+            } else {
+                displayError.textContent = '';
+            }
+        });
+
+        // Create a token or display an error when the form is submitted.
+        var form = document.getElementById('payment-form');
+        form.addEventListener('submit', function(event) {
+            event.preventDefault();
+
+            stripe.createToken(card).then(function(result) {
+                if (result.error) {
+                    // Inform the customer that there was an error.
+                    var errorElement = document.getElementById('card-errors');
+                    errorElement.textContent = result.error.message;
+                } else {
+                    // Send the token to your server.
+                    stripeTokenHandler(result.token);
+                }
+            });
+        });
+
+        function stripeTokenHandler(token) {
+            // Insert the token ID into the form so it gets submitted to the server
+            var form = document.getElementById('payment-form');
+            var hiddenInput = document.createElement('input');
+            hiddenInput.setAttribute('type', 'hidden');
+            hiddenInput.setAttribute('name', 'stripeToken');
+            hiddenInput.setAttribute('value', token.id);
+            form.appendChild(hiddenInput);
+
+            // Submit the form
+            form.submit();
+        }
+    </script>
+{% endblock %}

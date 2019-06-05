@@ -4,6 +4,8 @@
 namespace App\Form;
 
 use App\Entity\Customer;
+use App\Entity\Ticket;
+use App\Entity\Visit;
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\Extension\Core\Type\CountryType;
 use Symfony\Component\Form\Extension\Core\Type\EmailType;

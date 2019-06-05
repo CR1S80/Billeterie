@@ -25,7 +25,7 @@ class VisitManager
 
     /**
      * Initialisation de la visite et de la session
-     * @return Ticket
+     * @return Visit
      */
     public function initVisit()
     {
@@ -36,7 +36,7 @@ class VisitManager
 
     }
 
-    public function getCurrentVisit()
+    public function getCurrentVisit($validateBy = null)
     {
         $visit = $this->session->get(self::SESSION_ID_CURRENT_VISIT);
 
@@ -68,7 +68,7 @@ class VisitManager
         foreach ($visit->getTickets() as $ticket) {
             $priceTicket = $this->calculTicketPrice($ticket);
 
-            $totalPrice += $priceTicket;
+            $totalPrice += $ticket->getPrice();
 
 
         }
@@ -83,7 +83,6 @@ class VisitManager
      */
     public function calculTicketPrice(Ticket $ticket)
     {
-
 
         $birthday = $ticket->getBirthday();
         $today = new \DateTime();
