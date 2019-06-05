@@ -30,6 +30,7 @@ class VisitManager
     public function initVisit()
     {
         $visit = new Visit();
+        $visit->setInvoiceDate(new \DateTime());
         $this->session->set(self::SESSION_ID_CURRENT_VISIT,$visit);
 
         return $visit;
@@ -60,6 +61,7 @@ class VisitManager
     /**
      * @param Visit $visit
      * @return Ticket|int
+     * @throws \Exception
      */
     public function calculPrice(Visit $visit)
     {
@@ -68,7 +70,8 @@ class VisitManager
         foreach ($visit->getTickets() as $ticket) {
             $priceTicket = $this->calculTicketPrice($ticket);
 
-            $totalPrice += $ticket->getPrice();
+
+            $totalPrice += $priceTicket->getPrice();
 
 
         }

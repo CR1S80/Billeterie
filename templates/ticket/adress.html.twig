@@ -18,27 +18,27 @@
 
                                 {{ form_start(form, {'attr': {'class': 'was-validated'}}) }}
 
-                                {{ form_start(form, {'attr': {'class': 'was-validated'}}) }}
+
 
 
                                 <div class="num-billet">{{ 'Facture pour' | trans }} :</div><br/>
 
-                                {{ form_row(form.lastname) }}<br/>
+                                {{ form_row(form.customer.lastname) }}<br/>
 
-                                {{ form_row(form.firstname) }}<br/>
+                                {{ form_row(form.customer.firstname) }}<br/>
 
-                                {{ form_row(form.email) }}<br/>
+                                {{ form_row(form.customer.email) }}<br/>
 
 
                                 <div class="num-billet">{{ 'Adresse de facturation' | trans }} :</div><br/>
 
-                                {{ form_row(form.adress) }}<br/>
+                                {{ form_row(form.customer.adress) }}<br/>
 
-                                {{ form_row(form.postalCode) }}<br/>
+                                {{ form_row(form.customer.postalCode) }}<br/>
 
-                                {{ form_row(form.city) }}<br/>
+                                {{ form_row(form.customer.city) }}<br/>
 
-                                {{ form_row(form.country) }}<br/>
+                                {{ form_row(form.customer.country) }}<br/>
 
                                 <div class="col-sm-11">
                                     <button type="submit"

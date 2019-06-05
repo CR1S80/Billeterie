@@ -55,11 +55,7 @@ class Customer
 
 
 
-    /**
-     * @ORM\OneToOne(targetEntity="App\Entity\Ticket", inversedBy="customer", cascade={"persist", "remove"})
-     * @ORM\JoinColumn(nullable=true)
-     */
-    private $customer;
+
 
     public function __construct()
     {
@@ -157,15 +153,5 @@ class Customer
 
 
 
-    public function getCustomer(): ?Ticket
-    {
-        return $this->customer;
-    }
 
-    public function setCustomer(Ticket $customer): self
-    {
-        $this->customer = $customer;
-
-        return $this;
-    }
 }

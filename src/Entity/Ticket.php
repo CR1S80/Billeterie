@@ -49,10 +49,6 @@ class Ticket
      */
     private $reducedPrice;
 
-    /**
-     * @ORM\Column(type="boolean")
-     */
-    private $type;
 
     /**
      *
@@ -140,17 +136,6 @@ class Ticket
         return $this;
     }
 
-    public function getType(): ?bool
-    {
-        return $this->type;
-    }
-
-    public function setType(bool $type): self
-    {
-        $this->type = $type;
-
-        return $this;
-    }
 
     public function getPrice(): ?int
     {

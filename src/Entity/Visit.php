@@ -32,7 +32,7 @@ class Visit
     private $id;
 
     /**
-     * @ORM\Column(type="date")
+     * @ORM\Column(type="datetime", options={"default": "CURRENT_TIMESTAMP"})
      */
     private $invoiceDate;
 
@@ -57,15 +57,21 @@ class Visit
     private $totalPrice;
 
     /**
-     * @ORM\Column(type="string", length=255)
+     * @ORM\Column(type="string", length=255, options={"default": "OUI"})
      */
     private $bookingID;
 
 
     /**
-     * @ORM\OneToMany(targetEntity="App\Entity\Ticket", mappedBy="visit")
+     * @ORM\OneToMany(targetEntity="App\Entity\Ticket", mappedBy="visit",cascade={"persist"})
+     * @ORM\JoinColumn(nullable=false)
      */
     private $tickets;
+
+    /**
+     * @ORM\ManyToOne(targetEntity="App\Entity\customer", cascade={"persist"})
+     */
+    private $customer;
 
 
 
@@ -179,6 +185,18 @@ class Visit
                 $ticket->setVisit(null);
             }
         }
+
+        return $this;
+    }
+
+    public function getCustomer(): ?customer
+    {
+        return $this->customer;
+    }
+
+    public function setCustomer(?customer $customer): self
+    {
+        $this->customer = $customer;
 
         return $this;
     }

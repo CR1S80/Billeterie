@@ -3,8 +3,11 @@
 namespace App\Controller;
 
 
+use App\Entity\Customer;
+use App\Entity\Ticket;
 use App\Entity\Visit;
 use App\Form\CustomerType;
+use App\Form\VisitCustomerType;
 use App\Form\VisitTicketsType;
 use App\Form\VisitType;
 use phpDocumentor\Reflection\Types\This;
@@ -15,6 +18,7 @@ use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
 use Symfony\Component\HttpFoundation\Request;
+use Symfony\Component\Validator\Constraints\Date;
 
 
 class TicketController extends AbstractController
@@ -42,13 +46,14 @@ class TicketController extends AbstractController
     public function order(Request $request, VisitManager $visitManager)
     {
         $visit = $visitManager->initVisit();
-
+        dump($visit);
         $form = $this->createForm(VisitType::class, $visit);
         $form->handleRequest($request);
 
         if ($form->isSubmitted() && $form->isValid()) {
 
             $visitManager->generateTickets($visit);
+
 
             return $this->redirect($this->generateUrl('customer'));
 
@@ -67,7 +72,7 @@ class TicketController extends AbstractController
 
         $visit = $visitManager->getCurrentVisit();
 
-
+        dump($visit);
         $form = $this->createForm(VisitTicketsType::class, $visit);
 
         $form->handleRequest($request);
@@ -90,17 +95,18 @@ class TicketController extends AbstractController
     {
 
         $visit = $visitManager->getCurrentVisit();
-
-        $form = $this->createForm(CustomerType::class);
+        dump($visit);
+        $form = $this->createForm(VisitCustomerType::class);
 
         $form->handleRequest($request);
 
         if ($form->isSubmitted() && $form->isValid()) {
 
+
             return $this->redirect($this->generateUrl('pay'));
         }
 
-        var_dump($visit);
+        dump($visit);
         return $this->render('ticket/adress.html.twig', [
             'form' => $form->createView(),
             'visit' => $visit,
@@ -113,42 +119,48 @@ class TicketController extends AbstractController
      * @param Request $request
      * @param VisitManager $visitManager
      * @return Response
+     * @throws \Exception
      */
     public function payStep(Request $request, VisitManager $visitManager)
     {
 
+        $mail = new Customer();
+
+
         $visit = $visitManager->getCurrentVisit(Visit::IS_VALID_WITH_CUSTOMER);
+        dump($visit);
 
 
 
-        if ($request->getMethod() === "POST") {
+        if($request->getMethod() === "POST") {
             //Création de la charge - Stripe
             $token = $request->request->get('stripeToken');
             // chargement de la clé secrète de Stripe
-            $secretkey = 'pk_test_TYooMQauvdEDq54NiTphI7jx';
+            $secretkey = 'sk_test_4ytoBcxJI4ZSiCh2x75Y1XWc00njXRh8FE';
             // paiement
             Stripe::setApiKey($secretkey);
-            try {
-                Charge::create(array(
-                    "amount" => $visitManager->calculPrice($visit) * 100,
-                    "currency" => "eur",
-                    "source" => $token,
-                    "description" => "Réservation sur la billetterie du Musée du Louvre"));
-                // Création du booking code
-                dump($visit);
-                // enregistrement dans la base
-                $em = $this->getDoctrine()->getManager();
-                $em->persist($visit);
-                $em->flush();
-                $this->addFlash('notice', 'flash.payment.success');
-                return $this->redirect($this->generateUrl('confirmation'));
-            } catch (\Exception $e) {
-                $this->addFlash('danger', 'flash.payment.error');
-            }
+
+            Charge::create(array(
+                "amount" => $visitManager->calculPrice($visit) * 100,
+                "currency" => "eur",
+                "source" => $token,
+                "description" => "Réservation sur la billetterie du Musée du Louvre"));
+            // Création du booking code
+
+            // enregistrement dans la base
+
+            $em = $this->getDoctrine()->getManager();
+            $em->persist($visit);
+            $em->flush();
+
+            return $this->redirect($this->generateUrl('confirmation'));
         }
 
-
         return $this->render('ticket/pay.html.twig');
+
+
+
+
     }
 
     /**
@@ -159,6 +171,7 @@ class TicketController extends AbstractController
     public function confirmation(VisitManager $visitManager) {
 
         $visit = $visitManager->getCurrentVisit(Visit::IS_VALID_WITH_BOOKINGCODE);
+
         return $this->render('ticket/confirmation.html.twig');
     }
 
