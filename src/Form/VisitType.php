@@ -20,9 +20,10 @@ class VisitType extends AbstractType
     {
         $builder->add('visitDate', DateType::class, [
                 'label' => 'Date de visite',
-
+                'data' => new \DateTime(),
                 'attr' => ['class' => 'js-datepicker'],
-                'required' => true
+                'required' => true,
+                'format' => 'dd-MM-yyyy'
             ]
         )
             ->add('type', ChoiceType::class, [

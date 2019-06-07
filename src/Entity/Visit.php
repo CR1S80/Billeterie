@@ -77,7 +77,9 @@ class Visit
 
 
     public function __construct()
+
     {
+        //$this->visitDate = new \DateTime();
         $this->invoiceDate = new \DateTime();
         $this->tickets = new ArrayCollection();
         $this->customer = new ArrayCollection();

@@ -107,9 +107,9 @@ class TicketController extends AbstractController
         if ($form->isSubmitted() && $form->isValid()) {
 
             dump($visit);
-            return $this->redirect($this->render('ticket/pay.html.twig', [
+            return $this->render('ticket/pay.html.twig', [
                 'visit' => $visit,
-            ]));
+            ]);
         }
 
 
@@ -130,10 +130,10 @@ class TicketController extends AbstractController
     public function payStep(Request $request, VisitManager $visitManager)
     {
 
-        //$mail = new Customer();
 
 
-        $visit = $visitManager->getCurrentVisit(Visit::IS_VALID_WITH_CUSTOMER);
+
+        $visit = $visitManager->getCurrentVisit();
         dump($visit);
 
 
