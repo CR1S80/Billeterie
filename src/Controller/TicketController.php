@@ -41,11 +41,12 @@ class TicketController extends AbstractController
      * @Route("/order", name="order")
      * @param Request $request
      * @param VisitManager $visitManager
-     * @return \Symfony\Component\HttpFoundation\RedirectResponse|Response
+     * @return Response
      */
-    public function order(Request $request, VisitManager $visitManager)
+    public function order(Request $request, VisitManager $visitManager): Response
     {
         $visit = $visitManager->initVisit();
+
         dump($visit);
         $form = $this->createForm(VisitType::class, $visit);
         $form->handleRequest($request);
@@ -53,6 +54,7 @@ class TicketController extends AbstractController
         if ($form->isSubmitted() && $form->isValid()) {
 
             $visitManager->generateTickets($visit);
+            $visitManager->generateCustomer($visit);
 
 
             return $this->redirect($this->generateUrl('customer'));
@@ -66,6 +68,7 @@ class TicketController extends AbstractController
      * @param Request $request
      * @param VisitManager $visitManager
      * @return Response
+     * @throws \Exception
      */
     public function customerData(Request $request, VisitManager $visitManager): Response
     {
@@ -82,7 +85,7 @@ class TicketController extends AbstractController
             $visitManager->calculPrice($visit);
             return $this->redirect($this->generateUrl('adress'));
         }
-        return $this->render('ticket/customer.html.twig', array('form' => $form->createView(),'visit' => $visit,));
+        return $this->render('ticket/customer.html.twig', array('form' => $form->createView(), 'visit' => $visit,));
     }
 
     /**
@@ -96,17 +99,20 @@ class TicketController extends AbstractController
 
         $visit = $visitManager->getCurrentVisit();
         dump($visit);
-        $form = $this->createForm(VisitCustomerType::class);
+
+        $form = $this->createForm(VisitCustomerType::class, $visit);
 
         $form->handleRequest($request);
 
         if ($form->isSubmitted() && $form->isValid()) {
 
-
-            return $this->redirect($this->generateUrl('pay'));
+            dump($visit);
+            return $this->redirect($this->render('ticket/pay.html.twig', [
+                'visit' => $visit,
+            ]));
         }
 
-        dump($visit);
+
         return $this->render('ticket/adress.html.twig', [
             'form' => $form->createView(),
             'visit' => $visit,
@@ -124,15 +130,14 @@ class TicketController extends AbstractController
     public function payStep(Request $request, VisitManager $visitManager)
     {
 
-        $mail = new Customer();
+        //$mail = new Customer();
 
 
         $visit = $visitManager->getCurrentVisit(Visit::IS_VALID_WITH_CUSTOMER);
         dump($visit);
 
 
-
-        if($request->getMethod() === "POST") {
+        if ($request->getMethod() === "POST") {
             //Création de la charge - Stripe
             $token = $request->request->get('stripeToken');
             // chargement de la clé secrète de Stripe
@@ -159,8 +164,6 @@ class TicketController extends AbstractController
         return $this->render('ticket/pay.html.twig');
 
 
-
-
     }
 
     /**
@@ -168,7 +171,8 @@ class TicketController extends AbstractController
      * @param VisitManager $visitManager
      * @return Response
      */
-    public function confirmation(VisitManager $visitManager) {
+    public function confirmation(VisitManager $visitManager)
+    {
 
         $visit = $visitManager->getCurrentVisit(Visit::IS_VALID_WITH_BOOKINGCODE);
 

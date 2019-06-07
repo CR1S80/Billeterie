@@ -53,6 +53,11 @@ class Customer
      */
     private $country;
 
+    /**
+     * @ORM\OneToOne(targetEntity="App\Entity\Visit", mappedBy="customer", cascade={"persist", "remove"})
+     */
+    private $visit;
+
 
 
 
@@ -150,6 +155,20 @@ class Customer
 
         return $this;
     }
+
+    public function getVisit(): ?Visit
+    {
+        return $this->visit;
+    }
+
+    public function setVisit(?Visit $visit): self
+    {
+        $this->visit = $visit;
+
+        return $this;
+    }
+
+
 
 
 

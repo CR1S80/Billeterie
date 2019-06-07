@@ -69,7 +69,8 @@ class Visit
     private $tickets;
 
     /**
-     * @ORM\ManyToOne(targetEntity="App\Entity\customer", cascade={"persist"})
+     * @ORM\OneToOne(targetEntity="App\Entity\Customer", inversedBy="visit", cascade={"persist", "remove"})
+     * @ORM\JoinColumn(nullable=false)
      */
     private $customer;
 
@@ -77,7 +78,10 @@ class Visit
 
     public function __construct()
     {
+        $this->invoiceDate = new \DateTime();
         $this->tickets = new ArrayCollection();
+        $this->customer = new ArrayCollection();
+
     }
 
     public function getId(): ?int
@@ -189,17 +193,38 @@ class Visit
         return $this;
     }
 
-    public function getCustomer(): ?customer
+    /**
+     * @return Collection|customer[]
+     */
+    public function getCustomer(): Collection
     {
         return $this->customer;
     }
 
-    public function setCustomer(?customer $customer): self
+    public function addCustomer(Customer $customer): self
     {
-        $this->customer = $customer;
+        if (!$this->customer->contains($customer)) {
+            $this->customer[] = $customer;
+            $customer->setVisit($this);
+        }
 
         return $this;
     }
+
+    public function removeCustomer(Customer $customer): self
+    {
+        if ($this->customer->contains($customer)) {
+            $this->customer->removeElement($customer);
+            // set the owning side to null (unless already changed)
+            if ($customer->getVisit() === $this) {
+                $customer->setVisit(null);
+            }
+        }
+
+        return $this;
+    }
+
+
 
 
 }

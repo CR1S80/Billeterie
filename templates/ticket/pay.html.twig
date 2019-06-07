@@ -1,28 +1,96 @@
 {% extends "base.html.twig" %}
+
     {% block title 'Reservation de billet' %}
 
 
 
     {% block body %}
 
+        <div class="title-recap"><button type="button" class="btn btn-success text-white">{{ 'payment.visit' | trans }}</button></div>
+                                <ul>
+                                    <li><strong>{{ 'label.visit.date' | trans }} :</strong> {{ visit.visitDate | date('d/m/Y') }}</li>
+                                    <li><strong>{{ 'label.visit.type' | trans }} :</strong>
+                                        {% if visit.type is constant('TYPE_FULL_DAY', visit ) %}
+                                            {{ 'label.full.day.ticket' | trans }}
+                                        {% endif %}
+                                        {% if visit.type is constant('TYPE_HALF_DAY', visit) %}
+                                            {{ 'label.half.day.ticket' | trans }}
+                                        {% endif %}
+                                    </li>
+                                    <li>
+                                        {% for ticket in visit.tickets %}
+
+                                            <strong>{{ 'ticket' | trans }} n° {{ loop.index }} :</strong> {{ ticket.lastname }} {{ ticket.firstname }} - {{ ticket.price }} euros <br/>
+
+                                        {% endfor %}
+                                    </li>
+                                    <li><strong>{{ 'Prix total' | trans }} :</strong> {{ visit.totalPrice }} euros</li>
+                                </ul>
+                                <br/>
+
+                                <div class="title-recap"><button type="button" class="btn btn-success text-white">{{ 'Contact du client' | trans }}</button></div>
+                                <ul>
+                                    {% for customer in visit.customer %}
+                                    <li><strong>{{ 'Nom' | trans }} :</strong> {{ customer.lastname }}</li>
+                                    <li><strong>{{ 'Prénom' | trans }} :</strong> {{ customer.firstname }}</li>
+                                    <li><strong>{{ 'email' | trans }} :</strong> {{ customer.email }}</li>
+
+                                </ul>
+                                <br/>
+
+                            </div>
+
+                            <div class="col-lg-5">
+
+                                <div class="title-recap"><button type="button" class="btn btn-success text-white">{{ 'Info facture' | trans }}</button></div>
+                                <ul>
+                                    <li><strong>{{ 'Adresse' | trans }} :</strong> {{ customer.adress }}</li>
+                                    <li><strong>{{ 'Code postal' | trans }} :</strong> {{ customer.postalCode }}</li>
+                                    <li><strong>{{ 'Ville' | trans }} :</strong> {{ customer.city }} - {{ customer.country }}</li>
+                                    {% endfor %}
+                                </ul>
+
+                                <form action="" method="post" id="payment-form">
+                                    <div class="form-row">
+                                        <label for="card-element">
+                                            Credit or debit card
+                                        </label>
+                                        <div id="card-element">
+                                            <!-- A Stripe Element will be inserted here. -->
+                                        </div>
+
+                                        <!-- Used to display form errors. -->
+                                        <div id="card-errors" role="alert"></div>
+                                    </div>
+
+                                    <button>Submit Payment</button>
+                                </form>
+
+                            </div>
+
+                        </div>
+                    </div>
 
 
+                    <div class="col-lg-1">
+                    </div>
 
-        <form action="" method="post" id="payment-form">
-            <div class="form-row">
-                <label for="card-element">
-                    Credit or debit card
-                </label>
-                <div id="card-element">
-                    <!-- A Stripe Element will be inserted here. -->
                 </div>
-
-                <!-- Used to display form errors. -->
-                <div id="card-errors" role="alert"></div>
             </div>
 
-            <button>Submit Payment</button>
-        </form>
+
+
+
+        </section>
+
+
+
+
+
+
+
+
+
 
 
     {% endblock %}

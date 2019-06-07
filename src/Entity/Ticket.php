@@ -67,7 +67,14 @@ class Ticket
      */
     private $country;
 
-
+    /**
+     * Ticket constructor.
+     * @throws \Exception
+     */
+    public function __construct()
+    {
+        $this->birthday = (new \Datetime('2000-01-01'));
+    }
 
     public function getId(): ?int
     {

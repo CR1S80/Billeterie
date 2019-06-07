@@ -4,6 +4,7 @@
 namespace App\Manager;
 
 
+use App\Entity\Customer;
 use App\Entity\Ticket;
 use App\Entity\Visit;
 use Symfony\Component\HttpFoundation\Session\SessionInterface;
@@ -55,6 +56,14 @@ class VisitManager
         {
             $visit->addTicket(new Ticket());
         }
+        return $visit;
+    }
+
+    public function generateCustomer(Visit $visit)
+    {
+
+            $visit->addCustomer(new Customer());
+
         return $visit;
     }
 
