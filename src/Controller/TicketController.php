@@ -98,7 +98,7 @@ class TicketController extends AbstractController
     {
 
         $visit = $visitManager->getCurrentVisit();
-        dump($visit);
+
 
         $form = $this->createForm(VisitCustomerType::class, $visit);
 
@@ -106,10 +106,10 @@ class TicketController extends AbstractController
 
         if ($form->isSubmitted() && $form->isValid()) {
 
-            dump($visit);
-            return $this->render('ticket/pay.html.twig', [
-                'visit' => $visit,
-            ]);
+            // Création du booking code
+            $visitManager->genrateBookindId($visit);
+
+            return $this->redirect($this->generateUrl('pay'));
         }
 
 
@@ -134,6 +134,7 @@ class TicketController extends AbstractController
 
 
         $visit = $visitManager->getCurrentVisit();
+
         dump($visit);
 
 
@@ -150,7 +151,6 @@ class TicketController extends AbstractController
                 "currency" => "eur",
                 "source" => $token,
                 "description" => "Réservation sur la billetterie du Musée du Louvre"));
-            // Création du booking code
 
             // enregistrement dans la base
 
@@ -161,7 +161,11 @@ class TicketController extends AbstractController
             return $this->redirect($this->generateUrl('confirmation'));
         }
 
-        return $this->render('ticket/pay.html.twig');
+        return $this->render('ticket/pay.html.twig', [
+
+            'visit' => $visit,
+
+        ]);
 
 
     }

@@ -54,7 +54,7 @@ class Customer
     private $country;
 
     /**
-     * @ORM\OneToOne(targetEntity="App\Entity\Visit", mappedBy="customer", cascade={"persist", "remove"})
+     * @ORM\ManyToOne(targetEntity="App\Entity\Visit", inversedBy="customer")
      */
     private $visit;
 

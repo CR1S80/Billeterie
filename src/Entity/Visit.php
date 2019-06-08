@@ -69,7 +69,7 @@ class Visit
     private $tickets;
 
     /**
-     * @ORM\OneToOne(targetEntity="App\Entity\Customer", inversedBy="visit", cascade={"persist", "remove"})
+     * @ORM\OneToMany(targetEntity="App\Entity\Customer", mappedBy="visit", cascade={"persist"})
      * @ORM\JoinColumn(nullable=false)
      */
     private $customer;

@@ -127,6 +127,22 @@ class VisitManager
         return $ticket;
     }
 
+    public function genrateBookindId(Visit $visit) {
+
+
+
+
+            $mail = $visit->getCustomer()->get(0)->getEmail();
+            $firstname = $visit->getCustomer()->get(0)->getFirstname();
+            $key = $firstname . $mail . time() . mt_rand();
+            $keyLength = rand (12, 18);
+            $bookingId = substr(str_shuffle($key),0, $keyLength);
+            $visit->setBookingID($bookingId);
+
+            return $visit;
+
+    }
+
 
 
 
