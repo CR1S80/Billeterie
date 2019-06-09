@@ -13,6 +13,7 @@ use App\Form\VisitTicketsType;
 use App\Form\VisitType;
 use phpDocumentor\Reflection\Types\This;
 use App\Manager\VisitManager;
+use App\Services\EmailService;
 use Composer\DependencyResolver\Request;
 use Stripe\Charge;
 use Stripe\Stripe;
@@ -130,7 +131,7 @@ class TicketController extends AbstractController
      * @return Response
      * @throws \Exception
      */
-    public function payStep(RequestAlias $request, VisitManager $visitManager)
+    public function payStep(RequestAlias $request, VisitManager $visitManager, EmailService $emailService)
     {
 
 
@@ -160,6 +161,7 @@ class TicketController extends AbstractController
             $em = $this->getDoctrine()->getManager();
             $em->persist($visit);
             $em->flush();
+            $emailService->sendMailConfirmation($visit);
 
             return $this->redirect($this->generateUrl('confirmation'));
         }
