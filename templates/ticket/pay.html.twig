@@ -6,77 +6,113 @@
 
     {% block body %}
 
-        <div class="title-recap"><button type="button" class="btn btn-success text-white">{{ 'payment.visit' | trans }}</button></div>
-                                <ul>
-                                    <li><strong>{{ 'label.visit.date' | trans }} :</strong> {{ visit.visitDate | date('d/m/Y') }}</li>
-                                    <li><strong>{{ 'label.visit.type' | trans }} :</strong>
-                                        {% if visit.type is constant('TYPE_FULL_DAY', visit ) %}
-                                            {{ 'label.full.day.ticket' | trans }}
-                                        {% endif %}
-                                        {% if visit.type is constant('TYPE_HALF_DAY', visit) %}
-                                            {{ 'label.half.day.ticket' | trans }}
-                                        {% endif %}
-                                    </li>
-                                    <li>
-                                        {% for ticket in visit.tickets %}
+        <div class="title-recap">
+            <button type="button" class="btn btn-success text-white">{{ 'payment.visit' | trans }}</button>
+        </div>
+        <ul>
+            <li><strong>{{ 'label.visit.date' | trans }} :</strong> {{ visit.visitDate | date('d/m/Y') }}</li>
+            <li><strong>{{ 'label.visit.type' | trans }} :</strong>
+                {% if visit.type is constant('TYPE_FULL_DAY', visit ) %}
+                    {{ 'label.full.day.ticket' | trans }}
+                {% endif %}
+                {% if visit.type is constant('TYPE_HALF_DAY', visit) %}
+                    {{ 'label.half.day.ticket' | trans }}
+                {% endif %}
+            </li>
+            <li>
+                {% for ticket in visit.tickets %}
 
-                                            <strong>{{ 'ticket' | trans }} n° {{ loop.index }} :</strong> {{ ticket.lastname }} {{ ticket.firstname }} - {{ ticket.price }} euros <br/>
+                    <strong>{{ 'ticket' | trans }} n° {{ loop.index }}
+                        :</strong> {{ ticket.lastname }} {{ ticket.firstname }} - {{ ticket.price }} euros <br/>
 
-                                        {% endfor %}
-                                    </li>
-                                    <li><strong>{{ 'Prix total' | trans }} :</strong> {{ visit.totalPrice }} euros</li>
-                                </ul>
-                                <br/>
+                {% endfor %}
+            </li>
+            <li><strong>{{ 'Prix total' | trans }} :</strong> {{ visit.totalPrice }} euros</li>
+        </ul>
+        <br/>
 
-                                <div class="title-recap"><button type="button" class="btn btn-success text-white">{{ 'Contact du client' | trans }}</button></div>
-                                <ul>
-                                    {% for customer in visit.customer %}
-                                    <li><strong>{{ 'Nom' | trans }} :</strong> {{ customer.lastname }}</li>
-                                    <li><strong>{{ 'Prénom' | trans }} :</strong> {{ customer.firstname }}</li>
-                                    <li><strong>{{ 'email' | trans }} :</strong> {{ customer.email }}</li>
+        <div class="title-recap">
+            <button type="button" class="btn btn-success text-white">{{ 'Contact du client' | trans }}</button>
+        </div>
+        <ul>
+        {% for customer in visit.customer %}
+            <li><strong>{{ 'Nom' | trans }} :</strong> {{ customer.lastname }}</li>
+            <li><strong>{{ 'Prénom' | trans }} :</strong> {{ customer.firstname }}</li>
+            <li><strong>{{ 'email' | trans }} :</strong> {{ customer.email }}</li>
 
-                                </ul>
-                                <br/>
+            </ul>
+            <br/>
 
+            </div>
+
+            <div class="col-lg-5">
+
+            <div class="title-recap">
+                <button type="button" class="btn btn-success text-white">{{ 'Info facture' | trans }}</button>
+            </div>
+            <ul>
+            <li><strong>{{ 'Adresse' | trans }} :</strong> {{ customer.adress }}</li>
+            <li><strong>{{ 'Code postal' | trans }} :</strong> {{ customer.postalCode }}</li>
+            <li><strong>{{ 'Ville' | trans }} :</strong> {{ customer.city }} - {{ customer.country }}</li>
+        {% endfor %}
+        </ul>
+
+
+        <!-- Button trigger modal -->
+        <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#myModal">
+            Paiement
+        </button>
+
+        <!-- Modal -->
+        <div class="modal fade" id="myModal" tabindex="-1" role="dialog"
+             aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
+            <div class="modal-dialog modal-dialog-centered" role="document">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <h5 class="modal-title" id="exampleModalLongTitle">Modal title</h5>
+                        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                            <span aria-hidden="true">&times;</span>
+                        </button>
+                    </div>
+                    <div class="modal-body">
+                        <form action="" method="post" id="payment-form">
+                            <div class="form-row">
+                                <label for="card-element">
+                                    Credit or debit card
+                                </label>
+                                <div id="card-element">
+                                    <!-- A Stripe Element will be inserted here. -->
+                                </div>
+
+                                <!-- Used to display form errors. -->
+                                <div id="card-errors" role="alert"></div>
                             </div>
 
-                            <div class="col-lg-5">
 
-                                <div class="title-recap"><button type="button" class="btn btn-success text-white">{{ 'Info facture' | trans }}</button></div>
-                                <ul>
-                                    <li><strong>{{ 'Adresse' | trans }} :</strong> {{ customer.adress }}</li>
-                                    <li><strong>{{ 'Code postal' | trans }} :</strong> {{ customer.postalCode }}</li>
-                                    <li><strong>{{ 'Ville' | trans }} :</strong> {{ customer.city }} - {{ customer.country }}</li>
-                                    {% endfor %}
-                                </ul>
 
-                                <form action="" method="post" id="payment-form">
-                                    <div class="form-row">
-                                        <label for="card-element">
-                                            Credit or debit card
-                                        </label>
-                                        <div id="card-element">
-                                            <!-- A Stripe Element will be inserted here. -->
-                                        </div>
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-secondary" data-dismiss="modal">Annuler</button>
+                        <button type="submit" class="btn btn-primary">Payer</button>
 
-                                        <!-- Used to display form errors. -->
-                                        <div id="card-errors" role="alert"></div>
-                                    </div>
-
-                                    <button>Submit Payment</button>
-                                </form>
-
-                            </div>
-
-                        </div>
                     </div>
-
-
-                    <div class="col-lg-1">
-                    </div>
-
+                    </form>
                 </div>
             </div>
+        </div>
+
+
+
+        </div>
+
+        </div>
+        </div>
+
+
+        <div class="col-lg-1">
+        </div>
+
+        </div>
+        </div>
 
 
 
@@ -106,6 +142,7 @@
                 // Add your base input styles here. For example:
                 fontSize: '16px',
                 color: "#32325d",
+                width: '150px',
             }
         };
 
@@ -115,7 +152,7 @@
         // Add an instance of the card Element into the `card-element` <div>.
         card.mount('#card-element');
 
-        card.addEventListener('change', function(event) {
+        card.addEventListener('change', function (event) {
             var displayError = document.getElementById('card-errors');
             if (event.error) {
                 displayError.textContent = event.error.message;
@@ -126,10 +163,10 @@
 
         // Create a token or display an error when the form is submitted.
         var form = document.getElementById('payment-form');
-        form.addEventListener('submit', function(event) {
+        form.addEventListener('submit', function (event) {
             event.preventDefault();
 
-            stripe.createToken(card).then(function(result) {
+            stripe.createToken(card).then(function (result) {
                 if (result.error) {
                     // Inform the customer that there was an error.
                     var errorElement = document.getElementById('card-errors');
@@ -153,5 +190,10 @@
             // Submit the form
             form.submit();
         }
+    </script>
+    <script>
+        $('#myModal').on('shown.bs.modal', function () {
+            $('#myInput').trigger('focus')
+        })
     </script>
 {% endblock %}

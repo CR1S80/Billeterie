@@ -130,8 +130,6 @@ class VisitManager
     public function genrateBookindId(Visit $visit) {
 
 
-
-
             $mail = $visit->getCustomer()->get(0)->getEmail();
             $firstname = $visit->getCustomer()->get(0)->getFirstname();
             $key = $firstname . $mail . time() . mt_rand();

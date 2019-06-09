@@ -6,18 +6,21 @@ namespace App\Controller;
 use App\Entity\Customer;
 use App\Entity\Ticket;
 use App\Entity\Visit;
+use App\Form\ContactType;
 use App\Form\CustomerType;
 use App\Form\VisitCustomerType;
 use App\Form\VisitTicketsType;
 use App\Form\VisitType;
 use phpDocumentor\Reflection\Types\This;
 use App\Manager\VisitManager;
+use Composer\DependencyResolver\Request;
 use Stripe\Charge;
 use Stripe\Stripe;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
+use Symfony\Component\HttpFoundation\RedirectResponse;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
-use Symfony\Component\HttpFoundation\Request;
+use Symfony\Component\HttpFoundation\Request as RequestAlias;
 use Symfony\Component\Validator\Constraints\Date;
 
 
@@ -39,11 +42,11 @@ class TicketController extends AbstractController
     /**
      * premiere étape de la commmande
      * @Route("/order", name="order")
-     * @param Request $request
+     * @param RequestAlias $request
      * @param VisitManager $visitManager
      * @return Response
      */
-    public function order(Request $request, VisitManager $visitManager): Response
+    public function order(RequestAlias $request, VisitManager $visitManager): Response
     {
         $visit = $visitManager->initVisit();
 
@@ -65,12 +68,12 @@ class TicketController extends AbstractController
 
     /**
      * @Route ("/customer", name="customer")
-     * @param Request $request
+     * @param RequestAlias $request
      * @param VisitManager $visitManager
      * @return Response
      * @throws \Exception
      */
-    public function customerData(Request $request, VisitManager $visitManager): Response
+    public function customerData(RequestAlias $request, VisitManager $visitManager): Response
     {
 
         $visit = $visitManager->getCurrentVisit();
@@ -91,10 +94,10 @@ class TicketController extends AbstractController
     /**
      * @Route ("/adress", name="adress")
      * @param VisitManager $visitManager
-     * @param Request $request
+     * @param RequestAlias $request
      * @return Response
      */
-    public function adressCustomer(Request $request, VisitManager $visitManager): Response
+    public function adressCustomer(RequestAlias $request, VisitManager $visitManager): Response
     {
 
         $visit = $visitManager->getCurrentVisit();
@@ -122,12 +125,12 @@ class TicketController extends AbstractController
 
     /**
      * @Route ("/pay", name="pay")
-     * @param Request $request
+     * @param RequestAlias $request
      * @param VisitManager $visitManager
      * @return Response
      * @throws \Exception
      */
-    public function payStep(Request $request, VisitManager $visitManager)
+    public function payStep(RequestAlias $request, VisitManager $visitManager)
     {
 
 
@@ -185,12 +188,23 @@ class TicketController extends AbstractController
 
 
     /**
+     * page contact
      * @Route("/contact", name="contact")
+     * @param RequestAlias $request
+     * @return RedirectResponse|Response
      */
-    public function contact()
+    public function contactAction(RequestAlias $request)
     {
-        return $this->render('ticket/contact.html.twig', [
-            "current_menu" => "contact"
-        ]);
+        $form = $this->createForm(ContactType::class);
+        $form->handleRequest($request);
+
+        if($form->isSubmitted() && $form->isValid()) {
+            //$emailService->sendMailContact($form->getData());
+            $this->addFlash('notice', 'message.contact.send');
+            return $this->redirect($this->generateUrl('homepage'));
+        }
+        return $this->render('Ticket/contact.html.twig', [
+            'form'=>$form->createView()
+    ]);
     }
 }

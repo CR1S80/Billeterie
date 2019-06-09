@@ -1,5 +1,10 @@
 @import url('https://fonts.googleapis.com/css?family=Lato|Merriweather');
 
+.testing {
+    height: 100px;
+    width: 100px;
+    background: lightcoral;
+}
 .navbar {
     background: #3A2303 !important;
     font-family: 'Lato', sans-serif;
@@ -7,6 +12,7 @@
 
 .bg
 {
+
     /* Full height */
     height: 100vh;
     /* Center and scale the image nicely */
@@ -91,3 +97,96 @@ p.h5.p-2 {
     border: 0;
 }
 
+#card-element {
+    width: 100% !important;
+}
+
+@import url(https://fonts.googleapis.com/css?family=Open+Sans);
+
+
+#contact input[type="text"],#contact input[type="email"], #contact textarea{
+    display: block;
+    padding: 10px;
+    margin: 10px auto;
+    width: 100%;
+    font-size: 18px;
+    color: #777;
+    border: 1px solid #ccc;
+}
+
+#contact textarea{
+    font-size: 16px;
+}
+
+#contact input:hover, #contact textarea:hover{
+    border: 1px solid #888;
+}
+#contact input:focus, #contact textarea:focus{
+    border: 1px solid #777;
+}
+
+
+#contact textarea{
+    max-width: 100%;
+    min-width: 100%;
+    max-height: 180px;
+    min-height: 180px;
+    resize: none;
+}
+
+#contact .send-button{
+    text-align: center;
+}
+
+#contact .send-button button[type="submit"]{
+    color: #fff;
+    background: #e74c3c;
+    border: none;
+    width: 100%;
+    padding: 10px 0;
+    font-size: 20px;
+    text-transform: uppercase;
+    transition: .5s all ease;
+    cursor: pointer;
+}
+
+#contact .send-button button[type="submit"]:hover{
+    background: #c0392b;
+}
+
+#contact .send-button button[type="submit"]:focus{
+    position: relative;
+    top: 2px;
+}
+
+/*######################################\*
+              Responsive
+\*######################################*/
+
+@media screen and (min-width: 640px){
+
+
+    #contact textarea{
+        max-width: 98%;
+        min-width: 98%;
+        min-height: 152px;
+        margin-right: 0;
+    }
+
+    #contact .right,#contact .left{
+        display: block;
+    }
+
+    #contact .right{
+        float: right;
+        width: 50%;
+    }
+
+    #contact .left{
+        float: left;
+        width: 50%;
+    }
+    .cl{
+        clear: both;
+    }
+}
