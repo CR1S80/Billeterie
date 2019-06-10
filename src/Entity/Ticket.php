@@ -3,6 +3,8 @@
 namespace App\Entity;
 
 use Doctrine\ORM\Mapping as ORM;
+use Symfony\Component\Validator\Constraint as Assert;
+use Exception;
 
 /**
  * @ORM\Entity(repositoryClass="App\Repository\TicketRepository")
@@ -69,7 +71,8 @@ class Ticket
 
     /**
      * Ticket constructor.
-     * @throws \Exception
+     * @Assert\LessThan("today")
+     * @throws Exception
      */
     public function __construct()
     {

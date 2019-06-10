@@ -5,6 +5,7 @@ namespace App\Form;
 
 
 use App\Entity\Visit;
+use DateTime;
 use Symfony\Component\Form\Extension\Core\Type\ChoiceType;
 use Symfony\Component\Form\Extension\Core\Type\DateType;
 use Symfony\Component\Form\AbstractType;
@@ -20,10 +21,10 @@ class VisitType extends AbstractType
     {
         $builder->add('visitDate', DateType::class, [
                 'label' => 'Date de visite',
-                'data' => new \DateTime(),
+                'data' => new DateTime(),
                 'attr' => ['class' => 'datepicker'],
                 'required' => true,
-                'format' => 'dd-MM-yyyy',
+                'format' => 'dd/MM/yyyy',
                 'html5' => false,
                 'widget' => 'single_text',
             ]
