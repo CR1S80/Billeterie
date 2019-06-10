@@ -193,17 +193,19 @@ class TicketController extends AbstractController
      * page contact
      * @Route("/contact", name="contact")
      * @param RequestAlias $request
+     * @param EmailService $emailService
      * @return RedirectResponse|Response
      */
-    public function contactAction(RequestAlias $request)
+    public function contactAction(RequestAlias $request, EmailService $emailService)
     {
         $form = $this->createForm(ContactType::class);
         $form->handleRequest($request);
 
         if($form->isSubmitted() && $form->isValid()) {
-            //$emailService->sendMailContact($form->getData());
+            dump($form->getData());
+            $emailService->contact($form->getData());
             $this->addFlash('notice', 'message.contact.send');
-            return $this->redirect($this->generateUrl('homepage'));
+            return $this->redirect($this->generateUrl('contact'));
         }
         return $this->render('Ticket/contact.html.twig', [
             'form'=>$form->createView()

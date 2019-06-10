@@ -33,6 +33,13 @@ class ContactType extends AbstractType
                     new NotBlank(array('message' => 'constraint.contactType_email_notBlank')),
                     new Email(array('strict' => true, 'message' => "constraint.contactType_email_valide"))
                 )))
+            ->add('subject', TextType::class, [
+                'label' => 'label.subject',
+                'required' => true,
+                'constraints' => array(
+                    new NotBlank(array('message' => 'constraint.contactType_subject_notBlank')))
+
+            ])
             ->add('message', TextareaType::class, array(
                 'label' => 'label.message',
                 'required' => true,

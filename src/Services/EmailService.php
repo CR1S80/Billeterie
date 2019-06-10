@@ -61,4 +61,15 @@ class EmailService
 
 
     }
+
+    public function contact($data) {
+        $message = (new Swift_Message($data['subject']))
+            ->setFrom($data['email']) // je récupère l'adresse donnée par l'internaute dans le formulaire.
+            // Dans le controller, j'ai appelé les datas par  $emailService->sendMailContact($form->getData());
+            ->setTo('louvre.billeterie@cpdmdev-mg.fr') // je récupère l'adresse que j'ai enregistré dans parameters.yml grâce à cet argument
+            ->setBody($this->renderer->render('email/mailContact.html.twig',
+                array('data' => $data)))
+            ->setContentType('text/html');
+        $this->mailer->send($message);
+    }
 }
