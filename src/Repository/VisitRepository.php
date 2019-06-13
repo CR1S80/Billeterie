@@ -4,6 +4,7 @@ namespace App\Repository;
 
 use App\Entity\Visit;
 use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
+use Doctrine\ORM\NonUniqueResultException;
 use Symfony\Bridge\Doctrine\RegistryInterface;
 
 /**
@@ -51,11 +52,14 @@ class VisitRepository extends ServiceEntityRepository
 
     public function getNumberOfTicketForADay($visit_date) {
 
-        return $this->createQueryBuilder('v')
-            ->andWhere('v.visitDate = :vd')
-            ->setParameter('vd', $visit_date)
-            ->select("SUM(v.numberOfTicket) as SumTickets")
-            ->getQuery()
-            ->getOneOrNullResult();
+        try {
+            return $this->createQueryBuilder('v')
+                ->andWhere('v.visitDate = :vd')
+                ->setParameter('vd', $visit_date)
+                ->select("COALESCE(SUM(v.numberOfTicket),'0') as SumTickets")
+                ->getQuery()
+                ->getOneOrNullResult();
+        } catch (NonUniqueResultException $e) {
+        }
     }
 }

@@ -80,6 +80,7 @@ button.buy.tickets: 'Achetez vos billets'
 #order.html.twig
 title.site.order: 'Choix des billets'
 button.validate: 'Validez'
+message.nbTicketsMax: 'Le nombre de place pour ce jour là est épuisée'
 
 #identify.html.twig
 title.site.identify: 'Identification des visiteurs'

@@ -42,6 +42,12 @@
 
                                     {{ form_row(form.visitDate) }}<br/>
 
+
+
+                                    <div class="alert alert-danger" role="alert">
+                                        {{ 'message.nbTicketsMax' | trans }}
+                                    </div>
+
                                     {{ form_row(form.type, {label_attr: {class: 'radio-custom'} }) }}<br/>
 
                                     {{ form_row(form.numberOfTicket) }}<br/>
@@ -160,9 +166,14 @@
             language: "fr",
             autoclose: true,
             todayHighlight: true,
-            daysOfWeekDisabled: "2",
+            daysOfWeekDisabled: "0,2",
             orientation: "auto right",
-            datesDisabled: [`11/05/${date.getFullYear()+1}` ,`11/05/${date.getFullYear()}`],//date fériée
+            datesDisabled: [`01/05/${date.getFullYear()+1}` ,
+                            `01/05/${date.getFullYear()}`,
+                            `01/11/${date.getFullYear()+1}` ,
+                            `01/11/${date.getFullYear()}` ,
+                            `25/12/${date.getFullYear()+1}` ,
+                            `25/12/${date.getFullYear()}`],
             startDate: "0d",
             endDate: "+365d",
 

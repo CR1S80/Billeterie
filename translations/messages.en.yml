@@ -76,6 +76,7 @@ hours.days.6: 'Saturday : 9 am - 6 pm'
 #order.html.twig
 title.site.order: 'Tickets'
 button.validate: 'Validate'
+message.nbTicketsMax: 'The number of places for that day is exhausted'
 
 #identify.html.twig
 title.site.identify: 'Visitors'

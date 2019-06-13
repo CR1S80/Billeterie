@@ -56,29 +56,48 @@ class TicketController extends AbstractController
     {
         $visit = $visitManager->initVisit();
 
-        dump($visit);
+
         $form = $this->createForm(VisitType::class, $visit);
         $form->handleRequest($request);
 
 
         if ($form->isSubmitted() && $form->isValid()) {
 
+            $visit = $visitManager->getCurrentVisit();
+
             $rm = $this->getDoctrine()->getRepository(Visit::class);
-            $SumTicket = $rm->getNumberOfTicketForADay($visit->getVisitDate());
-            dump($SumTicket);
+            $SumTickets = $rm->getNumberOfTicketForADay($visit->getVisitDate());
 
-            //if nombre total
+            $nbTicket = $visit->getNumberOfTicket();
+            dump($SumTickets["SumTickets"]);
+            dump($nbTicket);
+            dump($visit);
+            $nbTotalTicket = $nbTicket + $SumTickets["SumTickets"];
+            dump($nbTotalTicket);
+            $d = j;
 
 
-            $visitManager->generateTickets($visit);
-            $visitManager->generateCustomer($visit);
+
+            if ($nbTotalTicket > Visit::NB_TICKET_MAX_DAY) {
+
+                return $this->redirect($this->generateUrl('order', [
+                    'message' => true,
+                ]));
+            } else {
+                //if nombre total
+
+
+                $visitManager->generateTickets($visit);
+                $visitManager->generateCustomer($visit);
+            }
 
 
             return $this->redirect($this->generateUrl('customer'));
 
         }
-        return $this->render('ticket/order.html.twig',[
-            'form' => $form->createView()
+        return $this->render('ticket/order.html.twig', [
+            'form' => $form->createView(),
+            'message' => false,
         ]);
     }
 
@@ -95,8 +114,15 @@ class TicketController extends AbstractController
 
         $visit = $visitManager->getCurrentVisit();
 
+        $rm = $this->getDoctrine()->getRepository(Visit::class);
+        $SumTickets = $rm->getNumberOfTicketForADay($visit->getVisitDate());
 
-        dump($visit);
+        $nbTicket = $visit->getNumberOfTicket();
+
+
+
+
+
         $form = $this->createForm(VisitTicketsType::class, $visit);
 
         $form->handleRequest($request);
@@ -155,8 +181,6 @@ class TicketController extends AbstractController
     {
 
 
-
-
         $visit = $visitManager->getCurrentVisit();
 
         dump($visit);
@@ -210,9 +234,6 @@ class TicketController extends AbstractController
         $qr = $visit->getBookingID();
 
 
-
-
-
         return $this->render('ticket/confirmation.html.twig', [
             'message' => $qr
 
@@ -232,14 +253,14 @@ class TicketController extends AbstractController
         $form = $this->createForm(ContactType::class);
         $form->handleRequest($request);
 
-        if($form->isSubmitted() && $form->isValid()) {
+        if ($form->isSubmitted() && $form->isValid()) {
             dump($form->getData());
             $emailService->contact($form->getData());
             $this->addFlash('notice', 'message.contact.send');
             return $this->redirect($this->generateUrl('contact'));
         }
         return $this->render('Ticket/contact.html.twig', [
-            'form'=>$form->createView()
-    ]);
+            'form' => $form->createView()
+        ]);
     }
 }
