@@ -44,9 +44,11 @@
 
 
 
-                                    <div class="alert alert-danger" role="alert">
-                                        {{ 'message.nbTicketsMax' | trans }}
-                                    </div>
+                                    {% for message in app.flashes('limit') %}
+                                        <div class="alert alert-danger">
+                                            {{ message | trans}}
+                                        </div>
+                                    {% endfor %}
 
                                     {{ form_row(form.type, {label_attr: {class: 'radio-custom'} }) }}<br/>
 

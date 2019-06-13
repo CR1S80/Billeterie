@@ -130,6 +130,12 @@
                                     <button>Submit Payment</button>
                                 </form>
 
+                                {% for message in app.flashes('danger') %}
+                                <div class="alert alert-danger">
+                                    {{ message | trans}}
+                                </div>
+                                {% endfor %}
+
                             </div>
 
                         </div>

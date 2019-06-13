@@ -74,15 +74,13 @@ class TicketController extends AbstractController
             dump($visit);
             $nbTotalTicket = $nbTicket + $SumTickets["SumTickets"];
             dump($nbTotalTicket);
-            $d = j;
-
 
 
             if ($nbTotalTicket > Visit::NB_TICKET_MAX_DAY) {
 
-                return $this->redirect($this->generateUrl('order', [
-                    'message' => true,
-                ]));
+                $this->addFlash('limit', 'message.nbTicketsMax');
+                return $this->redirect($this->generateUrl('order'));
+
             } else {
                 //if nombre total
 
@@ -118,9 +116,6 @@ class TicketController extends AbstractController
         $SumTickets = $rm->getNumberOfTicketForADay($visit->getVisitDate());
 
         $nbTicket = $visit->getNumberOfTicket();
-
-
-
 
 
         $form = $this->createForm(VisitTicketsType::class, $visit);
@@ -194,21 +189,28 @@ class TicketController extends AbstractController
             // paiement
             Stripe::setApiKey($secretkey);
 
-            Charge::create([
-                "amount" => $visitManager->calculPrice($visit) * 100,
-                "currency" => "eur",
-                "source" => $token,
-                "description" => "Réservation sur la billetterie du Musée du Louvre"
-            ]);
+            try {
+                Charge::create([
+                    "amount" => $visitManager->calculPrice($visit) * 100,
+                    "currency" => "eur",
+                    "source" => $token,
+                    "description" => "Réservation sur la billetterie du Musée du Louvre"
+                ]);
 
-            // enregistrement dans la base
 
-            $em = $this->getDoctrine()->getManager();
-            $em->persist($visit);
-            $em->flush();
-            $emailService->sendMailConfirmation($visit);
+                // enregistrement dans la base
 
-            return $this->redirect($this->generateUrl('confirmation'));
+                $em = $this->getDoctrine()->getManager();
+                $em->persist($visit);
+                $em->flush();
+                $this->addFlash('notice', 'flash.payment.success');
+                $emailService->sendMailConfirmation($visit);
+
+                return $this->redirect($this->generateUrl('confirmation'));
+
+            } catch (\Exception $e) {
+                $this->addFlash('danger', 'flash.payment.error');
+            }
         }
 
         return $this->render('ticket/pay.html.twig', [

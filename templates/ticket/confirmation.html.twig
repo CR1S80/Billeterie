@@ -8,6 +8,12 @@
 
 {% block body %}
 
+    {% endfor %}
+    {% for message in app.flashes('notice') %}
+        <div class="alert alert-success">
+            {{ message | trans}}
+        </div>
+    {% endfor %}
     <h1>Confirmation</h1>
 <img src="{{ qr_code_path(message) }}" />
 <img src="{{ qr_code_url(message, { writer: 'eps' }) }}" />
