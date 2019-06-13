@@ -6,6 +6,7 @@ namespace App\Form;
 
 use App\Entity\Customer;
 use App\Entity\Ticket;
+use DateTime;
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\Extension\Core\Type\BirthdayType;
 use Symfony\Component\Form\Extension\Core\Type\CheckboxType;
@@ -23,20 +24,22 @@ class TicketType extends AbstractType
     public function buildForm(FormBuilderInterface $builder, array $options)
     {
         $builder->add('lastname', TextType::class, [
-            'label' => 'Nom',
+            'label' => 'label.lastname.visitor',
             'required' => true])
             ->add('firstname', TextType::class, [
-                'label' => 'Prénom',
+                'label' => 'label.firstname.visitor',
                 'required' => true])
             ->add('country', CountryType::class, [
-                'label' => 'Nationalité',
+                'label' => 'label.country.visitor',
                 'preferred_choices' => ['FR'],
                 'required' => true])
             ->add('birthday', BirthdayType::class, [
-                'label' => 'Date de naissance',
-                'required' => true])
+                'label' => 'label.birthday.visitor',
+                'required' => true,
+
+                ])
             ->add('reducedPrice', CheckboxType::class, [
-                'label' => 'Prix réduit',
+                'label' => 'label.discount.visitor',
                 'required' => false
             ]);
     }

@@ -1,3 +1,34 @@
 #index:
 #    path: /
 #    controller: App\Controller\DefaultController::index
+before:
+  path: /{_locale}
+  controller: App\Controller\TicketController::home
+  requirements:
+    _locale: en|fr
+
+
+
+order:
+  path: /{_locale}/order
+  controller: App\Controller\TicketController::order
+  requirements:
+    _locale: en|fr
+
+customer:
+  path: /{_locale}/customer
+  controller: App\Controller\TicketController::customerData
+  requirements:
+    _locale: en|fr
+
+adress:
+  path: /{_locale}/adress
+  controller: App\Controller\TicketController::adressCustomer
+  requirements:
+    _locale: en|fr
+
+pay:
+  path: /{_locale}/pay
+  controller: App\Controller\TicketController::payStep
+  requirements:
+    _locale: en|fr

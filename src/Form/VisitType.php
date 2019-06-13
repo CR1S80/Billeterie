@@ -6,6 +6,7 @@ namespace App\Form;
 
 use App\Entity\Visit;
 use DateTime;
+use Exception;
 use Symfony\Component\Form\Extension\Core\Type\ChoiceType;
 use Symfony\Component\Form\Extension\Core\Type\DateType;
 use Symfony\Component\Form\AbstractType;
@@ -15,12 +16,14 @@ use Symfony\Component\OptionsResolver\OptionsResolver;
 class VisitType extends AbstractType
 {
     /**
-     * {@inheritdoc}
+     * @param FormBuilderInterface $builder
+     * @param array $options
+     * @throws Exception
      */
     public function buildForm(FormBuilderInterface $builder, array $options)
     {
         $builder->add('visitDate', DateType::class, [
-                'label' => 'Date de visite',
+                'label' => 'label.visit.date',
                 'data' => new DateTime(),
                 'attr' => ['class' => 'datepicker'],
                 'required' => true,
@@ -31,23 +34,23 @@ class VisitType extends AbstractType
         )
             ->add('type', ChoiceType::class, [
                 'choices' => [
-                    'Journée' => Visit::TYPE_FULL_DAY,
-                    'Demi-Journée' => Visit::TYPE_HALF_DAY
+                    'label.full.day.ticket' => Visit::TYPE_FULL_DAY,
+                    'label.half.day.ticket' => Visit::TYPE_HALF_DAY
             ],
-                'label' => 'Type',
+                'label' => 'label.visit.type',
                 'expanded' => true,
                 'multiple' => false,
             ])
-            ->add('numberOfTicket', ChoiceType::class,['label' => 'Nombre de place','choices' => array_combine(range(1, 10), range(1, 10))]);
+            ->add('numberOfTicket', ChoiceType::class,['label' => 'label.visit.nb.tickets','choices' => array_combine(range(1, 10), range(1, 10))]);
     }
+
     /**
-     * {@inheritdoc}
+     * @param OptionsResolver $resolver
      */
     public function configureOptions(OptionsResolver $resolver)
     {
         $resolver->setDefaults(array(
             'data_class' => Visit::class,
-            'validation_groups' => array('order_registration')
         ));
     }
 

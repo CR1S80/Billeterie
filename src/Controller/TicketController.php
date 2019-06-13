@@ -15,6 +15,8 @@ use phpDocumentor\Reflection\Types\This;
 use App\Manager\VisitManager;
 use App\Services\EmailService;
 use Composer\DependencyResolver\Request;
+use Endroid\QrCode\Factory\QrCodeFactoryInterface;
+use Endroid\QrCode\QrCode;
 use Stripe\Charge;
 use Stripe\Stripe;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
@@ -31,7 +33,10 @@ class TicketController extends AbstractController
 
     /**
      * page d'acceuil
-     * @Route("/", name="home")
+     * @Route({
+     *     "fr": "/",
+     *     "en": "/en",
+     *}, name="home")
      */
     public function home()
     {
@@ -55,7 +60,15 @@ class TicketController extends AbstractController
         $form = $this->createForm(VisitType::class, $visit);
         $form->handleRequest($request);
 
+
         if ($form->isSubmitted() && $form->isValid()) {
+
+            $rm = $this->getDoctrine()->getRepository(Visit::class);
+            $SumTicket = $rm->getNumberOfTicketForADay($visit->getVisitDate());
+            dump($SumTicket);
+
+            //if nombre total
+
 
             $visitManager->generateTickets($visit);
             $visitManager->generateCustomer($visit);
@@ -64,7 +77,9 @@ class TicketController extends AbstractController
             return $this->redirect($this->generateUrl('customer'));
 
         }
-        return $this->render('ticket/order.html.twig', array('form' => $form->createView()));
+        return $this->render('ticket/order.html.twig',[
+            'form' => $form->createView()
+        ]);
     }
 
     /**
@@ -77,7 +92,9 @@ class TicketController extends AbstractController
     public function customerData(RequestAlias $request, VisitManager $visitManager): Response
     {
 
+
         $visit = $visitManager->getCurrentVisit();
+
 
         dump($visit);
         $form = $this->createForm(VisitTicketsType::class, $visit);
@@ -89,7 +106,10 @@ class TicketController extends AbstractController
             $visitManager->calculPrice($visit);
             return $this->redirect($this->generateUrl('adress'));
         }
-        return $this->render('ticket/customer.html.twig', array('form' => $form->createView(), 'visit' => $visit,));
+        return $this->render('ticket/customer.html.twig', [
+            'form' => $form->createView(),
+            'visit' => $visit
+        ]);
     }
 
     /**
@@ -119,7 +139,7 @@ class TicketController extends AbstractController
 
         return $this->render('ticket/adress.html.twig', [
             'form' => $form->createView(),
-            'visit' => $visit,
+            'customer' => $visit->getCustomer()->get(0),
 
         ]);
     }
@@ -150,11 +170,12 @@ class TicketController extends AbstractController
             // paiement
             Stripe::setApiKey($secretkey);
 
-            Charge::create(array(
+            Charge::create([
                 "amount" => $visitManager->calculPrice($visit) * 100,
                 "currency" => "eur",
                 "source" => $token,
-                "description" => "Réservation sur la billetterie du Musée du Louvre"));
+                "description" => "Réservation sur la billetterie du Musée du Louvre"
+            ]);
 
             // enregistrement dans la base
 
@@ -169,6 +190,7 @@ class TicketController extends AbstractController
         return $this->render('ticket/pay.html.twig', [
 
             'visit' => $visit,
+            'customer' => $visit->getCustomer()->get(0),
 
         ]);
 
@@ -178,14 +200,23 @@ class TicketController extends AbstractController
     /**
      * @Route ("confirmation", name="confirmation")
      * @param VisitManager $visitManager
+     * @param QrCodeFactoryInterface $codeFactory
      * @return Response
      */
     public function confirmation(VisitManager $visitManager)
     {
 
         $visit = $visitManager->getCurrentVisit(Visit::IS_VALID_WITH_BOOKINGCODE);
+        $qr = $visit->getBookingID();
 
-        return $this->render('ticket/confirmation.html.twig');
+
+
+
+
+        return $this->render('ticket/confirmation.html.twig', [
+            'message' => $qr
+
+        ]);
     }
 
 

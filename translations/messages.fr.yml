@@ -15,7 +15,7 @@ label.lastname.customer: 'Nom'
 label.firstname.customer: 'Prénom'
 label.email.customer: 'Email'
 label.adress.customer: 'Adresse'
-label.postcode.customer: 'Code Postal'
+label.postalCode.customer: 'Code Postal'
 label.city.customer: 'Ville'
 label.country.customer: 'Pays'
 label.bookingcode: 'Votre code de réservation'
@@ -40,10 +40,23 @@ breadcrumb.fourth.label: 'Paiement'
 breadcrumb.five.label: 'Confirmation de la commande'
 
 
-#layout.html.twig
+#base.html.twig
 title.site: 'Billetterie du Musée du Louvre'
+hours.site: 'Horaires'
+hours.days.0: 'Dimanche : 9 h - 18 h'
+hours.days.1: 'Lundi : 9 h - 18 h'
+hours.days.2: 'Mardi : Fermé'
+hours.days.3: 'Mercredi : 9 h - 21h45'
+hours.days.4: 'Jeudi : 9 h - 18 h'
+hours.days.5: 'Vendredi : 9 h - 21h45'
+hours.days.6: 'Samedi : 9 h - 18 h'
 
-#index.html.twig
+
+
+
+
+
+#home.html.twig
 title.site.index: 'Accueil'
 title.welcome: 'Bienvenue sur la billetterie du musée du Louvre'
 homepage.paragraph0: "Le musée du Louvre vous accueille tous les jours, sauf les mardis et quelques jours fériés (les 1er mai, 1er novembre et 25 décembre), de 9h à 18h,
@@ -53,11 +66,12 @@ homepage.full.day.ticket: 'Billet « Journée »'
 homepage.half.day.ticket: 'Billet « Demi-journée ». Il vous permet d’entrer dans l’établissement à partir de 14h.'
 homepage.prices: 'Plusieurs tarifs sont disponibles'
 homepage.array.tickets: 'Billets'
-homepage.first.price: 'Tarif normal (à partir de 12 ans)'
-homepage.second.price: 'Tarif senior (à partir de 60 ans)'
-homepage.third.price: 'Tarif réduit'
-homepage.fourth.price: 'Tarif enfant (de 4 ans à 12 ans)'
-discount.first.condition: 'Entrée à partir de 14h'
+price: 'Tarifs'
+condition: 'Conditions'
+first.price: 'Normal (à partir de 12 ans) : '
+second.price: 'Senior (à partir de 60 ans) : '
+third.price: 'Réduit (1) : '
+fourth.price: 'Entrée à partir de 14h : '
 discount.second.condition: "Tarif accordé sous certaines conditions (étudiant, employé du musée, d’un service du Ministère de la Culture, militaire…)"
 discount.third.condition: "Gratuit pour les enfants de moins de 4 ans"
 homepage.recommandations: "Le billet acheté en ligne est nominatif. Un document d’identité peut vous être demandé à votre arrivée."

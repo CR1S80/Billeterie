@@ -53,7 +53,9 @@ class EmailService
             ->setFrom('noreply@louvre.fr')
             ->setTo($email)
             ->setBody($this->renderer->render('email/mailConfirmation.html.twig', [
-                'visit' => $visit->getCustomer()->get(0)
+                'customer' => $visit->getCustomer()->get(0),
+                'visit' => $visit,
+                'message' => $visit->getBookingID()
             ]), 'text/html');
 
 

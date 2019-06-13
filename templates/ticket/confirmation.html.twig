@@ -9,6 +9,9 @@
 {% block body %}
 
     <h1>Confirmation</h1>
+<img src="{{ qr_code_path(message) }}" />
+<img src="{{ qr_code_url(message, { writer: 'eps' }) }}" />
+<img src="{{ qr_code_data_uri(message, { writer: 'png', size: 150 }) }}" />
 
-{% endblock %}
+{%  endblock %}
     

@@ -1,5 +1,9 @@
 @import url('https://fonts.googleapis.com/css?family=Lato|Merriweather');
 
+.container {
+    width: 90%;
+}
+
 .testing {
     height: 100px;
     width: 100px;
@@ -35,6 +39,31 @@
     background: #343A40;
 }
 
+li.breadcrumb-item a {
+    color: #3A2303 !important;
+}
+
+.breadcrumb-item.active {
+    color: #D4D4D4;
+}
+
+.text-success {
+    color: #3A2303 !important;
+}
+
+.breadcrumb {
+    background-color: #F5F5F5;
+    border-color: #3A2303;
+}
+
+.title-recap {
+    margin-bottom: 15px;
+}
+
+button.btn.btn-success.text-white {
+    background-color: #3A2303 !important;
+}
+
 .art {
     width: 60%;
     background: white;
@@ -48,13 +77,16 @@
 }
 
 .home {
-    width: 80%;
+    width: 100%;
     background: white;
     overflow: auto;
     padding-top: 80px;
 
 }
 
+.was-validated .form-control {
+    width: 80%;
+}
 
 
 h1 {
@@ -157,6 +189,42 @@ p.h5.p-2 {
 #contact .send-button button[type="submit"]:focus{
     position: relative;
     top: 2px;
+}
+
+/**
+ * The CSS shown here will not be introduced in the Quickstart guide, but shows
+ * how you can use CSS to style your Element's container.
+ */
+.StripeElement {
+    box-sizing: border-box;
+
+    height: 40px;
+
+    padding: 10px 12px;
+
+    border: 1px solid transparent;
+    border-radius: 4px;
+    background-color: white;
+
+    box-shadow: 0 1px 3px 0 #e6ebf1;
+    -webkit-transition: box-shadow 150ms ease;
+    transition: box-shadow 150ms ease;
+}
+
+.StripeElement--focus {
+    box-shadow: 0 1px 3px 0 #cfd7df;
+}
+
+.StripeElement--invalid {
+    border-color: #fa755a;
+}
+
+.StripeElement--webkit-autofill {
+    background-color: #fefde5 !important;
+}
+
+.stripe-button-el {
+    background-color: #3A2303;
 }
 
 /*######################################\*

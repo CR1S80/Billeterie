@@ -47,4 +47,15 @@ class VisitRepository extends ServiceEntityRepository
         ;
     }
     */
+    //SELECT SUM(number_of_ticket) FROM `visit` WHERE visit_date = "2019-06-12"
+
+    public function getNumberOfTicketForADay($visit_date) {
+
+        return $this->createQueryBuilder('v')
+            ->andWhere('v.visitDate = :vd')
+            ->setParameter('vd', $visit_date)
+            ->select("SUM(v.numberOfTicket) as SumTickets")
+            ->getQuery()
+            ->getOneOrNullResult();
+    }
 }
