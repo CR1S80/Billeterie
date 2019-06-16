@@ -5,9 +5,18 @@ namespace App\Entity;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
+use Symfony\Component\Validator\Constraints as Assert;
+use Symfony\Bridge\Doctrine\Validator\Constraints\UniqueEntity;
+use App\Validator\Constraints as Validate;
 
 /**
+ * Class Visit
+ *
  * @ORM\Entity(repositoryClass="App\Repository\VisitRepository")
+ * @UniqueEntity("bookingID")
+ * @Validate\ReservationLimitAfterHour(hour=14)
+
+ * @package App\Entity
  */
 class Visit
 
@@ -37,17 +46,29 @@ class Visit
     private $invoiceDate;
 
     /**
-     * @ORM\Column(type="date")
+     *
+     * @ORM\Column(type="datetime")
+     * @Assert\Range(min="now", minMessage="constraint.visit.min.visitdate",
+     *     max="+1 year", maxMessage="constraint.visit.max.visitdate")
+     * @Validate\NoBookingOnSunday()
+     * @Validate\NoBookingOnTuesday()
+     * @Validate\LouvreClosed()
+     * @Assert\NotNull()
      */
     private $visitDate;
 
     /**
-     * @ORM\Column(type="integer")
+     * @var integer
+     * @ORM\Column(name="type", type="integer")
+     * @Assert\NotBlank(message="constraint.visit.type")
      */
     private $type;
 
     /**
+     * @var int
      * @ORM\Column(type="integer")
+     * @Assert\Range(min=1, minMessage="constraint.visit.min.nb.tickets", max=10,
+     *     maxMessage="constraint.visit.max.nb.tickets")
      */
     private $numberOfTicket;
 
@@ -57,7 +78,8 @@ class Visit
     private $totalPrice;
 
     /**
-     * @ORM\Column(type="string", length=255, options={"default": "OUI"})
+     * @ORM\Column(name="bookingID", type="string", unique=true, length=255)
+     *
      */
     private $bookingID;
 
@@ -156,6 +178,10 @@ class Visit
         return $this->bookingID;
     }
 
+    /**
+     * @param string $bookingID
+     * @return Visit
+     */
     public function setBookingID(string $bookingID): self
     {
         $this->bookingID = $bookingID;

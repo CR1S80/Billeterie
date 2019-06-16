@@ -3,20 +3,14 @@
 namespace App\Controller;
 
 
-use App\Entity\Customer;
-use App\Entity\Ticket;
 use App\Entity\Visit;
 use App\Form\ContactType;
-use App\Form\CustomerType;
 use App\Form\VisitCustomerType;
 use App\Form\VisitTicketsType;
 use App\Form\VisitType;
-use phpDocumentor\Reflection\Types\This;
 use App\Manager\VisitManager;
 use App\Services\EmailService;
-use Composer\DependencyResolver\Request;
 use Endroid\QrCode\Factory\QrCodeFactoryInterface;
-use Endroid\QrCode\QrCode;
 use Stripe\Charge;
 use Stripe\Stripe;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
@@ -24,7 +18,7 @@ use Symfony\Component\HttpFoundation\RedirectResponse;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
 use Symfony\Component\HttpFoundation\Request as RequestAlias;
-use Symfony\Component\Validator\Constraints\Date;
+use Symfony\Component\Validator\Constraints\DateTime;
 
 
 class TicketController extends AbstractController
@@ -57,6 +51,10 @@ class TicketController extends AbstractController
         $visit = $visitManager->initVisit();
 
 
+
+
+
+
         $form = $this->createForm(VisitType::class, $visit);
         $form->handleRequest($request);
 
@@ -69,11 +67,9 @@ class TicketController extends AbstractController
             $SumTickets = $rm->getNumberOfTicketForADay($visit->getVisitDate());
 
             $nbTicket = $visit->getNumberOfTicket();
-            dump($SumTickets["SumTickets"]);
-            dump($nbTicket);
-            dump($visit);
+
             $nbTotalTicket = $nbTicket + $SumTickets["SumTickets"];
-            dump($nbTotalTicket);
+
 
 
             if ($nbTotalTicket > Visit::NB_TICKET_MAX_DAY) {
@@ -82,7 +78,7 @@ class TicketController extends AbstractController
                 return $this->redirect($this->generateUrl('order'));
 
             } else {
-                //if nombre total
+
 
 
                 $visitManager->generateTickets($visit);
@@ -112,10 +108,8 @@ class TicketController extends AbstractController
 
         $visit = $visitManager->getCurrentVisit();
 
-        $rm = $this->getDoctrine()->getRepository(Visit::class);
-        $SumTickets = $rm->getNumberOfTicketForADay($visit->getVisitDate());
+        dump($visit->getVisitDate()->format('w'));
 
-        $nbTicket = $visit->getNumberOfTicket();
 
 
         $form = $this->createForm(VisitTicketsType::class, $visit);

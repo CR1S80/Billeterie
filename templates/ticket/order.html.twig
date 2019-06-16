@@ -50,7 +50,7 @@
                                         </div>
                                     {% endfor %}
 
-                                    {{ form_row(form.type, {label_attr: {class: 'radio-custom'} }) }}<br/>
+                                    {{ form_row(form.type, {label_attr: {class: 'radio-custom'}} ) }}<br/>
 
                                     {{ form_row(form.numberOfTicket) }}<br/>
 
@@ -167,8 +167,8 @@
         $('.datepicker').datepicker({
             language: "fr",
             autoclose: true,
-            todayHighlight: true,
-            daysOfWeekDisabled: "0,2",
+
+
             orientation: "auto right",
             datesDisabled: [`01/05/${date.getFullYear()+1}` ,
                             `01/05/${date.getFullYear()}`,
@@ -177,7 +177,8 @@
                             `25/12/${date.getFullYear()+1}` ,
                             `25/12/${date.getFullYear()}`],
             startDate: "0d",
-            endDate: "+365d",
+            endDate: "+1y",
+            todayBtn: "linked"
 
 
         })

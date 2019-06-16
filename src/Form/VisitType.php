@@ -6,6 +6,7 @@ namespace App\Form;
 
 use App\Entity\Visit;
 use DateTime;
+use DateTimeZone;
 use Exception;
 use Symfony\Component\Form\Extension\Core\Type\ChoiceType;
 use Symfony\Component\Form\Extension\Core\Type\DateType;
@@ -22,9 +23,10 @@ class VisitType extends AbstractType
      */
     public function buildForm(FormBuilderInterface $builder, array $options)
     {
+
         $builder->add('visitDate', DateType::class, [
                 'label' => 'label.visit.date',
-                'data' => new DateTime(),
+
                 'attr' => ['class' => 'datepicker'],
                 'required' => true,
                 'format' => 'dd/MM/yyyy',
@@ -40,8 +42,11 @@ class VisitType extends AbstractType
                 'label' => 'label.visit.type',
                 'expanded' => true,
                 'multiple' => false,
+
             ])
             ->add('numberOfTicket', ChoiceType::class,['label' => 'label.visit.nb.tickets','choices' => array_combine(range(1, 10), range(1, 10))]);
+
+
     }
 
     /**
@@ -49,9 +54,9 @@ class VisitType extends AbstractType
      */
     public function configureOptions(OptionsResolver $resolver)
     {
-        $resolver->setDefaults(array(
+        $resolver->setDefaults([
             'data_class' => Visit::class,
-        ));
+        ]);
     }
 
 }
