@@ -1,6 +1,6 @@
 #Validator visit
 constraint.visit.min.visitdate: "Vous devez choisir une date de visite supérieure ou égale à la date du jour."
-constraint.visit.max.visitdate: "La réservation est uniquement sur l'année en cours."
+constraint.visit.max.visitdate: "Vous ne pouvez pas réserver, plus d'une année à l'avance."
 constraint.visit.type: "Vous devez choisir un type de billet."
 constraint.visit.min.nb.tickets: "Vous devez réserver au minimum un billet."
 constraint.visit.max.nb.tickets: "Vous ne pouvez pas réserver plus de 10 billets par commande."

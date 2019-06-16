@@ -52,7 +52,8 @@ class Visit
      *     max="+1 year", maxMessage="constraint.visit.max.visitdate")
      * @Validate\NoBookingOnSunday()
      * @Validate\NoBookingOnTuesday()
-     * @Validate\LouvreClosed()
+     * @Validate\PublicHolidays()
+     * @Validate\LimitOneYearBooking()
      * @Assert\NotNull()
      */
     private $visitDate;

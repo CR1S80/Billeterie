@@ -7,12 +7,12 @@ use Doctrine\Common\Annotations\Annotation\IgnoreAnnotation;
 use Symfony\Component\Validator\Constraint;
 
 /**
- * Class LouvreClosed
+ * Class PublicHolidays
  * @package App\Validator\Constraints
  *
  * @Annotation
  */
-class LouvreClosed extends Constraint
+class PublicHolidays extends Constraint
 {
     public $message = 'constraint.no_reservation_louvre_closed';
 
