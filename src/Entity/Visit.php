@@ -54,6 +54,7 @@ class Visit
      * @Validate\NoBookingOnTuesday()
      * @Validate\PublicHolidays()
      * @Validate\LimitOneYearBooking()
+     * @Validate\NoPast()
      * @Assert\NotNull()
      */
     private $visitDate;
@@ -61,6 +62,7 @@ class Visit
     /**
      * @var integer
      * @ORM\Column(name="type", type="integer")
+     * @Asser\Range()
      * @Assert\NotBlank(message="constraint.visit.type")
      */
     private $type;
