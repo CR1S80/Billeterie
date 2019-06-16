@@ -1,5 +1,8 @@
 {% extends "base.html.twig" %}
     {% block title 'Reservation de billet' %}
+{% block stylesheets %}
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-datepicker/1.9.0/css/bootstrap-datepicker3.standalone.min.css"
+          rel="stylesheet">{% endblock %}
 
     {% form_theme form 'bootstrap_4_layout.html.twig' %}
 
@@ -16,11 +19,10 @@
                             <li class="breadcrumb-item active"><a class="breadcrumb-item"
                                                                   href="{{ path('order') }}">{{ 'breadcrumb.first.label' | trans }}</a>
                             </li>
-                            <li class="breadcrumb-item active"><a class="breadcrumb-item"
-                                                                  href="{{ path('adress') }}">{{ 'breadcrumb.second.label' | trans }}</a>
-                            </li>
                             <li class="breadcrumb-item text-success font-weight-bold text-uppercase"
-                                style="text-decoration:underline;">{{ 'breadcrumb.third.label' | trans }}</li>
+                                style="text-decoration:underline;">{{ 'breadcrumb.second.label' | trans }}
+                            </li>
+                            <li class="breadcrumb-item active">{{ 'breadcrumb.third.label' | trans }}</li>
                             <li class="breadcrumb-item active">{{ 'breadcrumb.fourth.label' | trans }}</li>
                             <li class="breadcrumb-item active">{{ 'breadcrumb.five.label' | trans }}</li>
                         </ol>
@@ -40,7 +42,7 @@
 
                                 {{ form_row(ticket.country, { 'separator': '=====' }) }}<br/>
 
-                                {{ form_row(ticket.birthday, {'attr': {'max': '12-06-2019' }}) }}<br/>
+                                {{ form_row(ticket.birthday) }}<br/>
 
                                 {{ form_row(ticket.reducedPrice) }}<br/>
 
@@ -58,61 +60,61 @@
                             {{ form_end(form) }}
 
 
-                    </div>
-                    <div class="col-4 p-0">
-
-                        <div class="well" style="background-color: #f5f5f5">
-                            <div class="card-header">{{ 'hours.site' | trans }}</div>
-                            <div class="card-body text-secondary">
-                                <ul>
-                                    <li>{{ 'hours.days.1' | trans }}</li>
-                                    <li>{{ 'hours.days.2' | trans }}</li>
-                                    <li>{{ 'hours.days.3' | trans }}</li>
-                                    <li>{{ 'hours.days.4' | trans }}</li>
-                                    <li>{{ 'hours.days.5' | trans }}</li>
-                                    <li>{{ 'hours.days.6' | trans }}</li>
-                                    <li>{{ 'hours.days.0' | trans }}</li>
-                                </ul>
-                            </div>
-                            <br>
-                            <div class="card-header">{{ 'price' | trans }}</div>
-                            <div class="card-body text-secondary">
-                                <ul>
-                                    <li>{{ 'first.price' | trans }}{{ constant('App\\Entity\\Ticket::PRICE_ADULT') }}
-                                        €
-                                    </li>
-                                    <li>{{ 'second.price' | trans }}{{ constant('App\\Entity\\Ticket::PRICE_CHILD') }}
-                                        €
-                                    </li>
-                                    <li>{{ 'third.price' | trans }}{{ constant('App\\Entity\\Ticket::PRICE_SENIOR') }}
-                                        €
-                                    </li>
-                                    <li>{{ 'fourth.price' | trans }}{{ constant('App\\Entity\\Ticket::PRICE_DISCOUNT') }}
-                                        €
-                                    </li>
-                                </ul>
-                            </div>
-                            <br>
-                            <div class="card-header">{{ 'condition' | trans }}</div>
-                            <div class="card-body text-secondary">
-                                <ul>
-                                    <li>(1) {{ 'discount.second.condition' | trans }}
-                                    </li>
-                                    <li>{{ 'discount.third.condition' | trans }}</li>
-
-
-                                </ul>
-                            </div>
                         </div>
+                        <div class="col-4 p-0">
+
+                            <div class="well" style="background-color: #f5f5f5">
+                                <div class="card-header">{{ 'hours.site' | trans }}</div>
+                                <div class="card-body text-secondary">
+                                    <ul>
+                                        <li>{{ 'hours.days.1' | trans }}</li>
+                                        <li>{{ 'hours.days.2' | trans }}</li>
+                                        <li>{{ 'hours.days.3' | trans }}</li>
+                                        <li>{{ 'hours.days.4' | trans }}</li>
+                                        <li>{{ 'hours.days.5' | trans }}</li>
+                                        <li>{{ 'hours.days.6' | trans }}</li>
+                                        <li>{{ 'hours.days.0' | trans }}</li>
+                                    </ul>
+                                </div>
+                                <br>
+                                <div class="card-header">{{ 'price' | trans }}</div>
+                                <div class="card-body text-secondary">
+                                    <ul>
+                                        <li>{{ 'first.price' | trans }}{{ constant('App\\Entity\\Ticket::PRICE_ADULT') }}
+                                            €
+                                        </li>
+                                        <li>{{ 'second.price' | trans }}{{ constant('App\\Entity\\Ticket::PRICE_CHILD') }}
+                                            €
+                                        </li>
+                                        <li>{{ 'third.price' | trans }}{{ constant('App\\Entity\\Ticket::PRICE_SENIOR') }}
+                                            €
+                                        </li>
+                                        <li>{{ 'fourth.price' | trans }}{{ constant('App\\Entity\\Ticket::PRICE_DISCOUNT') }}
+                                            €
+                                        </li>
+                                    </ul>
+                                </div>
+                                <br>
+                                <div class="card-header">{{ 'condition' | trans }}</div>
+                                <div class="card-body text-secondary">
+                                    <ul>
+                                        <li>(1) {{ 'discount.second.condition' | trans }}
+                                        </li>
+                                        <li>{{ 'discount.third.condition' | trans }}</li>
 
 
+                                    </ul>
+                                </div>
+                            </div>
+
+
+                        </div>
                     </div>
                 </div>
             </div>
-        </div>
 
         </div>
-        </div>
+
 
 
 
@@ -123,5 +125,59 @@
 
 
     {% endblock %}
+
+{% block javascripts %}
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.1.1/js/bootstrap.min.js"></script>
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.1.1/jquery.min.js"></script>
+    <script src="https://code.jquery.com/ui/1.12.1/jquery-ui.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-datepicker/1.4.1/js/bootstrap-datepicker.min.js"></script>
+
+
+
+    <script>
+
+
+        (function ($) {
+            $.fn.datepicker.dates['fr'] = {
+                days: ["dimanche", "lundi", "mardi", "mercredi", "jeudi", "vendredi", "samedi"],
+                daysShort: ["dim.", "lun.", "mar.", "mer.", "jeu.", "ven.", "sam."],
+                daysMin: ["d", "l", "ma", "me", "j", "v", "s"],
+                months: ["janvier", "février", "mars", "avril", "mai", "juin", "juillet", "août", "septembre", "octobre", "novembre", "décembre"],
+                monthsShort: ["janv.", "févr.", "mars", "avril", "mai", "juin", "juil.", "août", "sept.", "oct.", "nov.", "déc."],
+                today: "Aujourd'hui",
+                monthsTitle: "Mois",
+                clear: "Effacer",
+                weekStart: 1,
+                format: "dd/mm/yyyy",
+
+            };
+        }(jQuery));
+
+
+        let date = new Date();
+
+
+        $('.datepicker').datepicker({
+            language: "fr",
+            autoclose: true,
+
+            daysOfWeekDisabled: "0,2",
+            orientation: "auto right",
+            datesDisabled: [`01/05/${date.getFullYear() + 1}`,
+                `01/05/${date.getFullYear()}`,
+                `01/11/${date.getFullYear() + 1}`,
+                `01/11/${date.getFullYear()}`,
+                `25/12/${date.getFullYear() + 1}`,
+                `25/12/${date.getFullYear()}`],
+            startDate: "0d",
+            endDate: "+1y",
+            todayBtn: "linked"
+
+
+        })
+    </script>
+
+
+{% endblock %}
 
 

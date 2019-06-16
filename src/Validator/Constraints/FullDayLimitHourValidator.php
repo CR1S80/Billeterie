@@ -8,15 +8,14 @@ use App\Entity\Visit;
 use Symfony\Component\Validator\Constraint;
 use Symfony\Component\Validator\ConstraintValidator;
 
-class ReservationLimitAfterHourValidator extends ConstraintValidator
+class FullDayLimitHourValidator extends ConstraintValidator
 {
 
     /**
-     * @param mixed $object
-     * @package App\Validator\Constraints
+     * @param mixed $value
      * @param Constraint $constraint
+     * @throws \Exception
      */
-
     public function validate($object, Constraint $constraint)
     {
         $hour = date("H");
@@ -35,4 +34,5 @@ class ReservationLimitAfterHourValidator extends ConstraintValidator
                 ->addViolation();
         }
     }
+
 }

@@ -4,7 +4,7 @@
          {{ 'title.site.order' | trans }}
      {% endblock %}
 {% block stylesheets %}
-    <link href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-datepicker/1.8.0/css/bootstrap-datepicker.css"
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-datepicker/1.9.0/css/bootstrap-datepicker3.min.css"
           rel="stylesheet">{% endblock %}
 
     {% form_theme form 'bootstrap_4_layout.html.twig' %}
@@ -142,7 +142,7 @@
 
     <script>
 
-
+        let date = new Date();
 
         (function ($) {
             $.fn.datepicker.dates['fr'] = {
@@ -161,7 +161,7 @@
         }(jQuery));
 
 
-        let date = new Date();
+
 
 
         $('.datepicker').datepicker({
@@ -169,14 +169,14 @@
             autoclose: true,
 
             daysOfWeekDisabled: "0,2",
-            orientation: "auto right",
+            orientation: "auto",
             datesDisabled: [`01/05/${date.getFullYear()+1}` ,
                             `01/05/${date.getFullYear()}`,
                             `01/11/${date.getFullYear()+1}` ,
                             `01/11/${date.getFullYear()}` ,
                             `25/12/${date.getFullYear()+1}` ,
                             `25/12/${date.getFullYear()}`],
-            //startDate: "0d",
+            startDate: "0d",
             endDate: "+1y",
             todayBtn: "linked"
 

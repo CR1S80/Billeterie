@@ -1,20 +1,20 @@
 <?php
 
+
 namespace App\Validator\Constraints;
+
 
 use Symfony\Component\Validator\Constraint;
 
 /**
- * Class ReservationLimitAfterHour
+ * Class FullDayLimitHour
  * @package App\Validator\Constraints
  *
  * @Annotation
  */
-class ReservationLimitAfterHour extends Constraint
+class FullDayLimitHour extends Constraint
 {
-
     public $hour;
-
     public function __construct($options = null)
     {
         parent::__construct($options);

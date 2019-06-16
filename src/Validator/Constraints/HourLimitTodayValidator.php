@@ -19,19 +19,12 @@ class HourLimitTodayValidator extends ConstraintValidator
      */
     public function validate($value, Constraint $constraint)
     {
+        if(!$value instanceof \DateTime) return;
         $hour = date("H");
-        if(!$value instanceof Visit)
-        {
-            return;
-        }
-        if($value->getType() == Visit::TYPE_FULL_DAY &&
-            $hour >= $constraint->hour &&
-            $value->getVisitDate()->format('dmY') === date('dmY')
-        )
+        if($value->format('dmY') === date('dmY') && $hour >= $constraint->hour)
         {
             $this->context->buildViolation($constraint->getMessage())
                 ->setParameter('%hour%',$constraint->hour)
-                ->atPath('type')
                 ->addViolation();
         }
     }

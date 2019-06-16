@@ -19,7 +19,8 @@ use Symfony\Component\OptionsResolver\OptionsResolver;
 class TicketType extends AbstractType
 {
     /**
-     * {@inheritdoc}
+     * @param FormBuilderInterface $builder
+     * @param array $options
      */
     public function buildForm(FormBuilderInterface $builder, array $options)
     {
@@ -36,6 +37,11 @@ class TicketType extends AbstractType
             ->add('birthday', BirthdayType::class, [
                 'label' => 'label.birthday.visitor',
                 'required' => true,
+                'attr' => ['class' => 'datepicker'],
+
+                'format' => 'dd/MM/yyyy',
+                'html5' => false,
+                'widget' => 'single_text',
 
                 ])
             ->add('reducedPrice', CheckboxType::class, [

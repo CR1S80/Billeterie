@@ -14,8 +14,8 @@ use App\Validator\Constraints as Validate;
  *
  * @ORM\Entity(repositoryClass="App\Repository\VisitRepository")
  * @UniqueEntity("bookingID")
- * @Validate\ReservationLimitAfterHour(hour=14)
-
+ * @Validate\FullDayLimitHour(hour=14)
+ *
  * @package App\Entity
  */
 class Visit
@@ -37,24 +37,25 @@ class Visit
      * @ORM\Id()
      * @ORM\GeneratedValue()
      * @ORM\Column(type="integer")
+     *
      */
     private $id;
 
     /**
      * @ORM\Column(type="datetime", options={"default": "CURRENT_TIMESTAMP"})
+     * @Assert\DateTime()
      */
     private $invoiceDate;
 
     /**
      *
-     * @ORM\Column(type="datetime")
+     * @ORM\Column(type="date")
      * @Assert\Range(min="now", minMessage="constraint.visit.min.visitdate",
      *     max="+1 year", maxMessage="constraint.visit.max.visitdate")
+     * @Validate\HourLimitToday(hour=16)
      * @Validate\NoBookingOnSunday()
      * @Validate\NoBookingOnTuesday()
      * @Validate\PublicHolidays()
-     * @Validate\LimitOneYearBooking()
-     * @Validate\NoPast()
      * @Assert\NotNull()
      */
     private $visitDate;
@@ -62,7 +63,8 @@ class Visit
     /**
      * @var integer
      * @ORM\Column(name="type", type="integer")
-     * @Asser\Range()
+     * @Assert\Range(min=0, minMessage="constraint.visit.type", max="1", maxMessage="constraint.visit.type")
+     *
      * @Assert\NotBlank(message="constraint.visit.type")
      */
     private $type;
@@ -104,8 +106,8 @@ class Visit
     public function __construct()
 
     {
-        //$this->visitDate = new \DateTime();
-        $this->invoiceDate = new \DateTime();
+
+        $this->invoiceDate = new \DateTime('now', new \DateTimeZone('Europe/Paris'));
         $this->tickets = new ArrayCollection();
         $this->customer = new ArrayCollection();
 

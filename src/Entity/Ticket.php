@@ -3,7 +3,7 @@
 namespace App\Entity;
 
 use Doctrine\ORM\Mapping as ORM;
-use Symfony\Component\Validator\Constraint as Assert;
+use Symfony\Component\Validator\Constraints as Assert;
 use Exception;
 
 /**
@@ -26,34 +26,44 @@ class Ticket
      * @ORM\Id()
      * @ORM\GeneratedValue()
      * @ORM\Column(type="integer")
+     * @Assert\NotNull()
      */
     private $id;
 
     /**
+     * @var string
      * @ORM\Column(type="string", length=255)
+     * @Assert\NotBlank(message="constraint.ticket.notblank.lastname")
+     * @Assert\Regex(pattern="/[-a-zA-Zéèàêâùïüë]/",message="constraint.ticket.type.lastname")
      */
     private $lastname;
 
     /**
+     * @var string
      * @ORM\Column(type="string", length=255)
+     * @Assert\NotBlank(message="constraint.ticket.notblank.firstname")
+     * @Assert\Regex(pattern="/[-a-zA-Zéèàêâùïüë]/",message="constraint.ticket.type.firstname")
      */
     private $firstname;
 
     /**
      * @var \DateTime
      * @ORM\Column(name="birthday", type="date")
+     * @Assert\LessThan("today")
+     * @Assert\Date()
      */
     private $birthday;
 
 
     /**
+     * @var bool
      * @ORM\Column(type="boolean")
      */
     private $reducedPrice;
 
 
     /**
-     *
+     * @var int
      * @ORM\Column(type="integer")
      */
     private $price;
@@ -65,19 +75,22 @@ class Ticket
     private $visit;
 
     /**
+     * @var string
      * @ORM\Column(type="string", length=255)
+     * @Assert\NotNull()
      */
     private $country;
 
     /**
      * Ticket constructor.
-     * @Assert\LessThan("today")
+     *
      * @throws Exception
      */
     public function __construct()
     {
         $this->birthday = (new \Datetime('2000-01-01'));
     }
+
 
     public function getId(): ?int
     {

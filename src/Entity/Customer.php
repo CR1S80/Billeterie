@@ -2,10 +2,8 @@
 
 namespace App\Entity;
 
-use Doctrine\Common\Collections\ArrayCollection;
-use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
-
+use Symfony\Component\Validator\Constraints as Assert;
 /**
  * @ORM\Entity(repositoryClass="App\Repository\CustomerRepository")
  */
@@ -15,41 +13,54 @@ class Customer
      * @ORM\Id()
      * @ORM\GeneratedValue()
      * @ORM\Column(type="integer")
+     * @Assert\NotNull()
      */
     private $id;
 
     /**
+     * @var string
      * @ORM\Column(type="string", length=255)
+     * @Assert\NotBlank(message="constraint.ticket.notblank.lastname")
+     * @Assert\Regex(pattern="/[-a-zA-Zéèàêâùïüë]/",message="constraint.ticket.type.lastname")
      */
     private $lastname;
 
     /**
+     * @var string
      * @ORM\Column(type="string", length=255)
+     * @Assert\NotBlank(message="constraint.ticket.notblank.firstname")
+     * @Assert\Regex(pattern="/[-a-zA-Zéèàêâùïüë]/",message="constraint.ticket.type.firstname")
      */
     private $firstname;
 
     /**
      * @ORM\Column(type="string", length=255)
+     * @Assert\NotBlank(message="constraint.customer.notblank.email")
+     * @Assert\Email(strict=true,message="constraint.customer.message.email")
      */
     private $email;
 
     /**
      * @ORM\Column(type="string", length=255)
+     * @Assert\NotBlank(message="constraint.customer.notblank.adress")
      */
     private $adress;
 
     /**
      * @ORM\Column(type="string", length=255)
+     * @Assert\NotBlank(message="constraint.customer.notblank.postcode")
      */
     private $postalCode;
 
     /**
      * @ORM\Column(type="string", length=255)
+     * @Assert\NotBlank(message="constraint.customer.notblank.city")
      */
     private $city;
 
     /**
      * @ORM\Column(type="string", length=255)
+     * @Assert\NotBlank()
      */
     private $country;
 
