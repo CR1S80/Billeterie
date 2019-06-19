@@ -31,4 +31,8 @@ class FullDayLimitHour extends Constraint
     {
         return self::CLASS_CONSTRAINT;
     }
+
+    //public $message = 'constraint.limited_reservation_after_hour';
+
+
 }

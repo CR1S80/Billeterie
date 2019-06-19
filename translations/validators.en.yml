@@ -21,7 +21,9 @@ constraint.customer.notblank.email: "You have to enter an email adress."
 constraint.customer.message.email: "This email adress is invalid."
 constraint.customer.notblank.adress: "You have to enter your mailing address."
 constraint.customer.notblank.postcode: "You have to enter the postal code of your city."
+constraint.customer.regex.postcode: "The postal code entered is not correct."
 constraint.customer.notblank.city: "You have to enter your city."
+constraint.customer.regex.city: "The city entered is not correct."
 
 
 #Validator - Constraints

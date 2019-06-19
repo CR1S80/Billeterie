@@ -25,7 +25,7 @@ class FullDayLimitHourValidator extends ConstraintValidator
         }
         if($object->getType() == Visit::TYPE_FULL_DAY &&
             $hour >= $constraint->hour &&
-            $object->getVisitDate()->format('dmY') === date('dmY')
+            $object->getVisitDate()->format('Y-m-d') === date('Y-m-d')
         )
         {
             $this->context->buildViolation($constraint->getMessage())

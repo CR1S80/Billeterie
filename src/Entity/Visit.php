@@ -2,6 +2,7 @@
 
 namespace App\Entity;
 
+use DateTime;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
@@ -14,7 +15,7 @@ use App\Validator\Constraints as Validate;
  *
  * @ORM\Entity(repositoryClass="App\Repository\VisitRepository")
  * @UniqueEntity("bookingID")
- * @Validate\FullDayLimitHour(hour=14)
+ * @Validate\FullDayLimitHour(hour=14, groups={"order"})
  *
  * @package App\Entity
  */
@@ -30,8 +31,8 @@ class Visit
 
     const IS_VALID_INIT = ["order"];
     const IS_VALID_WITH_TICKET = ["order", "customer"];
-    const IS_VALID_WITH_CUSTOMER = ["order", "customer", "adress"];
-    const IS_VALID_WITH_BOOKINGCODE = ["order", "customer", "adress", "pay"];
+    const IS_VALID_WITH_CUSTOMER = ["order", "customer", "address"];
+    const IS_VALID_WITH_BOOKINGCODE = ["order", "customer", "address", "pay"];
 
     /**
      * @ORM\Id()
@@ -43,20 +44,21 @@ class Visit
 
     /**
      * @ORM\Column(type="datetime", options={"default": "CURRENT_TIMESTAMP"})
-     * @Assert\DateTime()
+     * @Assert\DateTime(groups={"order"})
      */
     private $invoiceDate;
 
     /**
      *
      * @ORM\Column(type="date")
-     * @Assert\Range(min="now", minMessage="constraint.visit.min.visitdate",
-     *     max="+1 year", maxMessage="constraint.visit.max.visitdate")
-     * @Validate\HourLimitToday(hour=16)
-     * @Validate\NoBookingOnSunday()
-     * @Validate\NoBookingOnTuesday()
-     * @Validate\PublicHolidays()
+     * @Assert\Range(min="today", minMessage="constraint.visit.min.visitdate",
+     *     max="+1 year", maxMessage="constraint.visit.max.visitdate", groups={"order"})
+     * @Validate\HourLimitToday(hour=16, groups={"order"})
+     * @Validate\NoBookingOnSunday(groups={"order"})
+     * @Validate\NoBookingOnTuesday(groups={"order"})
+     * @Validate\PublicHolidays(groups={"order"})
      * @Assert\NotNull()
+     *
      */
     private $visitDate;
 
@@ -65,7 +67,7 @@ class Visit
      * @ORM\Column(name="type", type="integer")
      * @Assert\Range(min=0, minMessage="constraint.visit.type", max="1", maxMessage="constraint.visit.type")
      *
-     * @Assert\NotBlank(message="constraint.visit.type")
+     * @Assert\NotBlank(message="constraint.visit.type", groups={"order"})
      */
     private $type;
 
@@ -84,6 +86,7 @@ class Visit
 
     /**
      * @ORM\Column(name="bookingID", type="string", unique=true, length=255)
+     * @Assert\NotNull(groups={"pay"})
      *
      */
     private $bookingID;
@@ -92,12 +95,14 @@ class Visit
     /**
      * @ORM\OneToMany(targetEntity="App\Entity\Ticket", mappedBy="visit",cascade={"persist"})
      * @ORM\JoinColumn(nullable=false)
+     * @Assert\Valid(groups={"customer"})
      */
     private $tickets;
 
     /**
      * @ORM\OneToMany(targetEntity="App\Entity\Customer", mappedBy="visit", cascade={"persist"})
      * @ORM\JoinColumn(nullable=false)
+     * @Assert\Valid(groups={"address"})
      */
     private $customer;
 
@@ -107,7 +112,8 @@ class Visit
 
     {
 
-        $this->invoiceDate = new \DateTime('now', new \DateTimeZone('Europe/Paris'));
+        $this->invoiceDate = new DateTime('now', new \DateTimeZone('Europe/Paris'));
+        $this->visitDate = new DateTime('now', new \DateTimeZone('Europe/Paris'));
         $this->tickets = new ArrayCollection();
         $this->customer = new ArrayCollection();
 

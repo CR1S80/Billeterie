@@ -1,5 +1,11 @@
 @import url('https://fonts.googleapis.com/css?family=Lato|Merriweather');
 
+select#visit_tickets_tickets_0_birthday_day,
+select#visit_tickets_tickets_0_birthday_month,
+select#visit_tickets_tickets_0_birthday_year{
+    width: 25%;
+}
+
 .container {
     width: 90%;
 }

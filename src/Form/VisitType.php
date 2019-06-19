@@ -56,6 +56,7 @@ class VisitType extends AbstractType
     {
         $resolver->setDefaults([
             'data_class' => Visit::class,
+            'validation_groups' => ['order']
         ]);
     }
 

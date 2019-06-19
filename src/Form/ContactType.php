@@ -14,38 +14,38 @@ class ContactType extends AbstractType
 {
     public function buildForm(FormBuilderInterface $builder, array $options)
     {
-        $builder->add('lastname', TextType::class, array(
+        $builder->add('lastname', TextType::class, [
             'label' => 'label.lastname',
             'required' => true,
-            'constraints' => array(
-                new NotBlank(array('message' => 'constraint.contactType_lastname_notBlank'))
-            )))
-            ->add('firstname', TextType::class, array(
+            'constraints' => [
+                new NotBlank(['message' => 'constraint.contactType_lastname_notBlank'])
+            ]])
+            ->add('firstname', TextType::class, [
                 'label' => 'label.firstname',
                 'required' => true,
-                'constraints' => array(
-                    new NotBlank(array('message' => 'constraint.contactType_firstname_notBlank'))
-                )))
-            ->add('email', EmailType::class, array(
+                'constraints' => [
+                    new NotBlank(['message' => 'constraint.contactType_firstname_notBlank'])
+                ]])
+            ->add('email', EmailType::class, [
                 'label' => 'label.email',
                 'required' => true,
-                'constraints' => array(
-                    new NotBlank(array('message' => 'constraint.contactType_email_notBlank')),
-                    new Email(array('strict' => true, 'message' => "constraint.contactType_email_valide"))
-                )))
+                'constraints' => [
+                    new NotBlank(['message' => 'constraint.contactType_email_notBlank']),
+                    new Email(['strict' => true, 'message' => "constraint.contactType_email_valide"])
+                ]])
             ->add('subject', TextType::class, [
                 'label' => 'label.subject',
                 'required' => true,
-                'constraints' => array(
-                    new NotBlank(array('message' => 'constraint.contactType_subject_notBlank')))
+                'constraints' => [
+                    new NotBlank(['message' => 'constraint.contactType_subject_notBlank'])]
 
             ])
-            ->add('message', TextareaType::class, array(
+            ->add('message', TextareaType::class, [
                 'label' => 'label.message',
                 'required' => true,
-                'constraints' => array(
-                    new NotBlank(array('message' => 'constraint.contactType_message_notBlank'))
-                )));
+                'constraints' => [
+                    new NotBlank(['message' => 'constraint.contactType_message_notBlank'])
+                ]]);
     }
     public function getName()
     {

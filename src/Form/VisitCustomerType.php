@@ -22,9 +22,10 @@ class VisitCustomerType extends AbstractType
 
     public function configureOptions(OptionsResolver $resolver)
     {
-        $resolver->setDefaults(array(
+        $resolver->setDefaults([
             'data_class' => Visit::class,
-            ));
+            'validation_groups' => ['address']
+        ]);
     }
 
 }

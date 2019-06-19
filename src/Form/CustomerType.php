@@ -48,9 +48,10 @@ class CustomerType extends AbstractType
      */
     public function configureOptions(OptionsResolver $resolver)
     {
-        $resolver->setDefaults(array(
-            'data_class' => Customer::class
-        ));
+        $resolver->setDefaults([
+            'data_class' => Customer::class,
+            'validation_groups' => '[address]'
+        ]);
     }
 
 

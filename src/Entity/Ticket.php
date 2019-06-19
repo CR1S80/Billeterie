@@ -4,6 +4,7 @@ namespace App\Entity;
 
 use Doctrine\ORM\Mapping as ORM;
 use Symfony\Component\Validator\Constraints as Assert;
+use App\Validator\Constraints as Validate;
 use Exception;
 
 /**
@@ -33,24 +34,26 @@ class Ticket
     /**
      * @var string
      * @ORM\Column(type="string", length=255)
-     * @Assert\NotBlank(message="constraint.ticket.notblank.lastname")
-     * @Assert\Regex(pattern="/[-a-zA-Zéèàêâùïüë]/",message="constraint.ticket.type.lastname")
+     * @Assert\NotBlank(message="constraint.ticket.notblank.lastname", groups={"customer"})
+     * @Assert\Regex(pattern="/^[a-zA-Z-éàèçù]+$/i",message="constraint.ticket.type.lastname", groups={"customer"})
      */
     private $lastname;
 
     /**
      * @var string
      * @ORM\Column(type="string", length=255)
-     * @Assert\NotBlank(message="constraint.ticket.notblank.firstname")
-     * @Assert\Regex(pattern="/[-a-zA-Zéèàêâùïüë]/",message="constraint.ticket.type.firstname")
+     * @Assert\NotBlank(message="constraint.ticket.notblank.firstname", groups={"customer"})
+     * @Assert\Regex(pattern="/^[a-zA-Z-éàèçù]+$/i",message="constraint.ticket.type.firstname", groups={"customer"})
      */
     private $firstname;
 
     /**
-     * @var \DateTime
-     * @ORM\Column(name="birthday", type="date")
-     * @Assert\LessThan("today")
-     * @Assert\Date()
+     *
+     * @ORM\Column(name="birthday", type="datetime")
+     * @Assert\LessThan(
+     *      "today",
+     *      message = "test", groups={"customer"})
+     *
      */
     private $birthday;
 
@@ -77,7 +80,7 @@ class Ticket
     /**
      * @var string
      * @ORM\Column(type="string", length=255)
-     * @Assert\NotNull()
+     * @Assert\NotNull(groups={"customer"})
      */
     private $country;
 
@@ -88,7 +91,7 @@ class Ticket
      */
     public function __construct()
     {
-        $this->birthday = (new \Datetime('2000-01-01'));
+
     }
 
 

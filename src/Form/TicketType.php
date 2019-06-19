@@ -36,14 +36,7 @@ class TicketType extends AbstractType
                 'required' => true])
             ->add('birthday', BirthdayType::class, [
                 'label' => 'label.birthday.visitor',
-                'required' => true,
-                'attr' => ['class' => 'datepicker'],
-
-                'format' => 'dd/MM/yyyy',
-                'html5' => false,
-                'widget' => 'single_text',
-
-                ])
+                'required' => true])
             ->add('reducedPrice', CheckboxType::class, [
                 'label' => 'label.discount.visitor',
                 'required' => false
@@ -51,13 +44,14 @@ class TicketType extends AbstractType
     }
 
     /**
-     * {@inheritdoc}
+     * @param OptionsResolver $resolver
      */
     public function configureOptions(OptionsResolver $resolver)
     {
-        $resolver->setDefaults(array(
-            'data_class' => Ticket::class
-        ));
+        $resolver->setDefaults([
+            'data_class' => Ticket::class,
+            'validation_groups' => ['customer']
+        ]);
     }
 
 }

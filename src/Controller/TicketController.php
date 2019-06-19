@@ -51,10 +51,6 @@ class TicketController extends AbstractController
         $visit = $visitManager->initVisit();
 
 
-
-
-
-
         $form = $this->createForm(VisitType::class, $visit);
         $form->handleRequest($request);
 
@@ -71,14 +67,12 @@ class TicketController extends AbstractController
             $nbTotalTicket = $nbTicket + $SumTickets["SumTickets"];
 
 
-
             if ($nbTotalTicket > Visit::NB_TICKET_MAX_DAY) {
 
                 $this->addFlash('limit', 'message.nbTicketsMax');
                 return $this->redirect($this->generateUrl('order'));
 
             } else {
-
 
 
                 $visitManager->generateTickets($visit);
@@ -108,10 +102,6 @@ class TicketController extends AbstractController
 
         $visit = $visitManager->getCurrentVisit();
 
-        dump($visit->getVisitDate()->format('w'));
-
-
-
         $form = $this->createForm(VisitTicketsType::class, $visit);
 
         $form->handleRequest($request);
@@ -119,7 +109,7 @@ class TicketController extends AbstractController
 
         if ($form->isSubmitted() && $form->isValid()) {
             $visitManager->calculPrice($visit);
-            return $this->redirect($this->generateUrl('adress'));
+            return $this->redirect($this->generateUrl('address'));
         }
         return $this->render('ticket/customer.html.twig', [
             'form' => $form->createView(),
@@ -128,15 +118,17 @@ class TicketController extends AbstractController
     }
 
     /**
-     * @Route ("/adress", name="adress")
+     * @Route ("/address", name="address")
      * @param VisitManager $visitManager
      * @param RequestAlias $request
      * @return Response
      */
-    public function adressCustomer(RequestAlias $request, VisitManager $visitManager): Response
+    public function addressCustomer(RequestAlias $request, VisitManager $visitManager): Response
     {
 
         $visit = $visitManager->getCurrentVisit();
+
+        dump($visit);
 
 
         $form = $this->createForm(VisitCustomerType::class, $visit);
@@ -172,28 +164,43 @@ class TicketController extends AbstractController
 
         $visit = $visitManager->getCurrentVisit();
 
-        dump($visit);
+        if ($visit->getTotalPrice() > 0) {
 
 
-        if ($request->getMethod() === "POST") {
-            //Création de la charge - Stripe
-            $token = $request->request->get('stripeToken');
-            // chargement de la clé secrète de Stripe
-            $secretkey = 'sk_test_4ytoBcxJI4ZSiCh2x75Y1XWc00njXRh8FE';
-            // paiement
-            Stripe::setApiKey($secretkey);
+            if ($request->getMethod() === "POST") {
+                //Création de la charge - Stripe
+                $token = $request->request->get('stripeToken');
+                // chargement de la clé secrète de Stripe
+                $secretkey = 'sk_test_4ytoBcxJI4ZSiCh2x75Y1XWc00njXRh8FE';
+                // paiement
+                Stripe::setApiKey($secretkey);
 
-            try {
-                Charge::create([
-                    "amount" => $visitManager->calculPrice($visit) * 100,
-                    "currency" => "eur",
-                    "source" => $token,
-                    "description" => "Réservation sur la billetterie du Musée du Louvre"
-                ]);
+                try {
+                    Charge::create([
+                        "amount" => $visitManager->calculPrice($visit) * 100,
+                        "currency" => "eur",
+                        "source" => $token,
+                        "description" => "Réservation sur la billetterie du Musée du Louvre"
+                    ]);
 
 
-                // enregistrement dans la base
+                    // enregistrement dans la base
 
+                    $em = $this->getDoctrine()->getManager();
+                    $em->persist($visit);
+                    $em->flush();
+                    $this->addFlash('notice', 'flash.payment.success');
+                    $emailService->sendMailConfirmation($visit);
+
+                    return $this->redirect($this->generateUrl('confirmation'));
+
+                } catch (\Exception $e) {
+                    $this->addFlash('danger', 'flash.payment.error');
+                }
+            }
+        } else {
+
+            if ($request->getMethod() === "POST") {
                 $em = $this->getDoctrine()->getManager();
                 $em->persist($visit);
                 $em->flush();
@@ -201,9 +208,6 @@ class TicketController extends AbstractController
                 $emailService->sendMailConfirmation($visit);
 
                 return $this->redirect($this->generateUrl('confirmation'));
-
-            } catch (\Exception $e) {
-                $this->addFlash('danger', 'flash.payment.error');
             }
         }
 
@@ -211,6 +215,7 @@ class TicketController extends AbstractController
 
             'visit' => $visit,
             'customer' => $visit->getCustomer()->get(0),
+            'Amount' => $visit->getTotalPrice() > 0
 
         ]);
 

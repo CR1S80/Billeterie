@@ -20,41 +20,43 @@ class Customer
     /**
      * @var string
      * @ORM\Column(type="string", length=255)
-     * @Assert\NotBlank(message="constraint.ticket.notblank.lastname")
-     * @Assert\Regex(pattern="/[-a-zA-Zéèàêâùïüë]/",message="constraint.ticket.type.lastname")
+     * @Assert\NotBlank(message="constraint.ticket.notblank.lastname", groups={"address"})
+     * @Assert\Regex(pattern="/^[a-zA-Z-éàèçù]+$/i",message="constraint.ticket.type.lastname", groups={"address"})
      */
     private $lastname;
 
     /**
      * @var string
      * @ORM\Column(type="string", length=255)
-     * @Assert\NotBlank(message="constraint.ticket.notblank.firstname")
-     * @Assert\Regex(pattern="/[-a-zA-Zéèàêâùïüë]/",message="constraint.ticket.type.firstname")
+     * @Assert\NotBlank(message="constraint.ticket.notblank.firstname", groups={"address"})
+     * @Assert\Regex(pattern="/^[a-zA-Z-éàèçù]+$/i",message="constraint.ticket.type.firstname", groups={"address"})
      */
     private $firstname;
 
     /**
      * @ORM\Column(type="string", length=255)
-     * @Assert\NotBlank(message="constraint.customer.notblank.email")
-     * @Assert\Email(strict=true,message="constraint.customer.message.email")
+     * @Assert\NotBlank(message="constraint.customer.notblank.email", groups={"address"})
+     * @Assert\Email(checkMX=true, strict=true, message="constraint.customer.message.email", groups={"address"})
      */
     private $email;
 
     /**
      * @ORM\Column(type="string", length=255)
-     * @Assert\NotBlank(message="constraint.customer.notblank.adress")
+     * @Assert\NotBlank(message="constraint.customer.notblank.adress", groups={"address"})
      */
     private $adress;
 
     /**
      * @ORM\Column(type="string", length=255)
-     * @Assert\NotBlank(message="constraint.customer.notblank.postcode")
+     * @Assert\NotBlank(message="constraint.customer.notblank.postcode", groups={"address"})
+     * @Assert\Regex(pattern="/^[a-zA-Z0-9]+$/i",message="constraint.customer.regex.postcode", groups={"address"})
      */
     private $postalCode;
 
     /**
      * @ORM\Column(type="string", length=255)
-     * @Assert\NotBlank(message="constraint.customer.notblank.city")
+     * @Assert\NotBlank(message="constraint.customer.notblank.city", groups={"address"})
+     * @Assert\Regex(pattern="/^[a-zA-Z-éàèçù]+$/i",message="constraint.customer.regex.city", groups={"address"})
      */
     private $city;
 

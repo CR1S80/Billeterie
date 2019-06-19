@@ -141,9 +141,6 @@
 
 
     <script>
-
-        let date = new Date();
-
         (function ($) {
             $.fn.datepicker.dates['fr'] = {
                 days: ["dimanche", "lundi", "mardi", "mercredi", "jeudi", "vendredi", "samedi"],
@@ -157,19 +154,18 @@
                 weekStart: 1,
                 format: "dd/mm/yyyy",
 
+
             };
         }(jQuery));
 
-
-
-
+        let date = new Date();
 
         $('.datepicker').datepicker({
             language: "fr",
             autoclose: true,
 
             daysOfWeekDisabled: "0,2",
-            orientation: "auto",
+            orientation: "auto right",
             datesDisabled: [`01/05/${date.getFullYear()+1}` ,
                             `01/05/${date.getFullYear()}`,
                             `01/11/${date.getFullYear()+1}` ,
