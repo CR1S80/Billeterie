@@ -9,6 +9,7 @@
         "egulias/email-validator": "^2.1",
         "endroid/qr-code": "^3.6",
         "endroid/qr-code-bundle": "^3.3",
+        "phpunit/phpunit": "^8.2",
         "sensio/framework-extra-bundle": "^5.1",
         "stripe/stripe-php": "^6.37",
         "symfony/asset": "4.2.*",

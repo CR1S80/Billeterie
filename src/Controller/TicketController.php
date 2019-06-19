@@ -23,6 +23,8 @@ use Symfony\Component\Validator\Constraints\DateTime;
 
 class TicketController extends AbstractController
 {
+
+
     private $session = [];
 
     /**
@@ -180,7 +182,8 @@ class TicketController extends AbstractController
                         "amount" => $visitManager->calculPrice($visit) * 100,
                         "currency" => "eur",
                         "source" => $token,
-                        "description" => "Réservation sur la billetterie du Musée du Louvre"
+                        "description" => "Réservation sur la billetterie du Musée du Louvre",
+
                     ]);
 
 
@@ -189,22 +192,25 @@ class TicketController extends AbstractController
                     $em = $this->getDoctrine()->getManager();
                     $em->persist($visit);
                     $em->flush();
-                    $this->addFlash('notice', 'flash.payment.success');
+                   // $this->addFlash('notice', 'flash.payment.success');
                     $emailService->sendMailConfirmation($visit);
 
                     return $this->redirect($this->generateUrl('confirmation'));
 
                 } catch (\Exception $e) {
-                    $this->addFlash('danger', 'flash.payment.error');
+                    echo 'Exception reçue : ',  $e->getMessage(), "\n";
+                    //$this->addFlash('danger', 'flash.payment.error');
                 }
             }
         } else {
+
+            dump($visit);
 
             if ($request->getMethod() === "POST") {
                 $em = $this->getDoctrine()->getManager();
                 $em->persist($visit);
                 $em->flush();
-                $this->addFlash('notice', 'flash.payment.success');
+               // $this->addFlash('notice', 'flash.payment.success');
                 $emailService->sendMailConfirmation($visit);
 
                 return $this->redirect($this->generateUrl('confirmation'));
@@ -264,4 +270,5 @@ class TicketController extends AbstractController
             'form' => $form->createView()
         ]);
     }
+
 }

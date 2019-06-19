@@ -27,7 +27,7 @@
                                                                       href="{{ path('customer') }}">{{ 'breadcrumb.second.label' | trans }}</a>
                                 </li>
                                 <li class="breadcrumb-item active"><a class="breadcrumb-item"
-                                                                      href="{{ path('adress') }}">{{ 'breadcrumb.third.label' | trans }}</a>
+                                                                      href="{{ path('address') }}">{{ 'breadcrumb.third.label' | trans }}</a>
                                 </li>
                                 <li class="breadcrumb-item text-success font-weight-bold text-uppercase"
                                     style="text-decoration:underline;">{{ 'breadcrumb.fourth.label' | trans }}</li>
@@ -58,6 +58,11 @@
                                     <button type="button"
                                             class="btn btn-success text-white">{{ 'payment.visit' | trans }}</button>
                                 </div>
+                                {% for message in app.flashes('danger') %}
+                                    <div class="alert alert-danger">
+                                        {{ message | trans}}
+                                    </div>
+                                {% endfor %}
                                 <ul>
                                     <li><strong>{{ 'label.visit.date' | trans }}
                                             :</strong> {{ visit.visitDate | date('d/m/Y') }}</li>
@@ -130,11 +135,7 @@
                                     <button>Submit Payment</button>
                                 </form>
 
-                                {% for message in app.flashes('danger') %}
-                                <div class="alert alert-danger">
-                                    {{ message | trans}}
-                                </div>
-                                {% endfor %}
+
                                 {% else %}
                                     <form action="" method="post">
 

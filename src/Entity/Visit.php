@@ -85,7 +85,7 @@ class Visit
     private $totalPrice;
 
     /**
-     * @ORM\Column(name="bookingID", type="string", unique=true, length=255)
+     * @ORM\Column(name="booking_id", type="string", unique=true, length=255)
      * @Assert\NotNull(groups={"pay"})
      *
      */
