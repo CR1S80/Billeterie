@@ -42,14 +42,6 @@
 
                                     {{ form_row(form.visitDate) }}<br/>
 
-
-
-                                    {% for message in app.flashes('limit') %}
-                                        <div class="alert alert-danger">
-                                            {{ message | trans}}
-                                        </div>
-                                    {% endfor %}
-
                                     {{ form_row(form.type, {label_attr: {class: 'radio-custom'}} ) }}<br/>
 
                                     {{ form_row(form.numberOfTicket) }}<br/>

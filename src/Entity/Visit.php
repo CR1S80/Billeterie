@@ -16,6 +16,7 @@ use App\Validator\Constraints as Validate;
  * @ORM\Entity(repositoryClass="App\Repository\VisitRepository")
  * @UniqueEntity("bookingID")
  * @Validate\FullDayLimitHour(hour=14, groups={"order"})
+ * @Validate\LimitTicketsPerDay(groups={"order"})
  *
  * @package App\Entity
  */

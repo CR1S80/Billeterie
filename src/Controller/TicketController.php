@@ -61,25 +61,9 @@ class TicketController extends AbstractController
 
             $visit = $visitManager->getCurrentVisit();
 
-            $rm = $this->getDoctrine()->getRepository(Visit::class);
-            $SumTickets = $rm->getNumberOfTicketForADay($visit->getVisitDate());
+            $visitManager->generateTickets($visit);
+            $visitManager->generateCustomer($visit);
 
-            $nbTicket = $visit->getNumberOfTicket();
-
-            $nbTotalTicket = $nbTicket + $SumTickets["SumTickets"];
-
-
-            if ($nbTotalTicket > Visit::NB_TICKET_MAX_DAY) {
-
-                $this->addFlash('limit', 'message.nbTicketsMax');
-                return $this->redirect($this->generateUrl('order'));
-
-            } else {
-
-
-                $visitManager->generateTickets($visit);
-                $visitManager->generateCustomer($visit);
-            }
 
 
             return $this->redirect($this->generateUrl('customer'));
@@ -165,6 +149,7 @@ class TicketController extends AbstractController
 
 
         $visit = $visitManager->getCurrentVisit();
+        dump($visit->getCustomer()->get(0));
 
         if ($visit->getTotalPrice() > 0) {
 
@@ -179,10 +164,17 @@ class TicketController extends AbstractController
 
                 try {
                     Charge::create([
+
                         "amount" => $visitManager->calculPrice($visit) * 100,
                         "currency" => "eur",
                         "source" => $token,
                         "description" => "Réservation sur la billetterie du Musée du Louvre",
+                        'metadata' => [
+                        "Lastname" => $visit->getCustomer()->get(0)->getLastname(),
+                        "Firstname" => $visit->getCustomer()->get(0)->getFirstname(),
+                        "NumberTickets" => $visit->getnumberOfTicket(),
+                       // "Tickets" => $visit->getTickets()->get(0),
+                        ]
 
                     ]);
 
@@ -192,7 +184,7 @@ class TicketController extends AbstractController
                     $em = $this->getDoctrine()->getManager();
                     $em->persist($visit);
                     $em->flush();
-                   // $this->addFlash('notice', 'flash.payment.success');
+                    $this->addFlash('notice', 'flash.payment.success');
                     $emailService->sendMailConfirmation($visit);
 
                     return $this->redirect($this->generateUrl('confirmation'));
@@ -204,13 +196,13 @@ class TicketController extends AbstractController
             }
         } else {
 
-            dump($visit);
+
 
             if ($request->getMethod() === "POST") {
                 $em = $this->getDoctrine()->getManager();
                 $em->persist($visit);
                 $em->flush();
-               // $this->addFlash('notice', 'flash.payment.success');
+                $this->addFlash('notice', 'flash.payment.success');
                 $emailService->sendMailConfirmation($visit);
 
                 return $this->redirect($this->generateUrl('confirmation'));
@@ -231,7 +223,6 @@ class TicketController extends AbstractController
     /**
      * @Route ("confirmation", name="confirmation")
      * @param VisitManager $visitManager
-     * @param QrCodeFactoryInterface $codeFactory
      * @return Response
      */
     public function confirmation(VisitManager $visitManager)
