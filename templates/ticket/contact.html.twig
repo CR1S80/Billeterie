@@ -1,88 +1,81 @@
 {% extends "base.html.twig" %}
 
-{% block body %}
+{% form_theme form 'bootstrap_4_layout.html.twig' %}
 
-    <div class="container">
-        <div class="row">
-            <div class="col-md-12">
-                <div class="well well-sm">
-                    <form class="" method="post">
-                        {{ form_start(form) }}
-                        <fieldset>
-                            <legend class="text-xs-center header">Contact us</legend>
-
-                          <div class="form-group">
-                                <span class="col-md-1 offset-md-2 text-xs-center">Nom :<i class="fa fa-user bigicon"></i></span>
-                                <div class="col-md-8">
-                                    {{ form_widget(form.firstname) }}
-                                    {{ form_errors(form.firstname) }}
-                                </div>
-                            </div>
-                            <div class="form-group">
-                                <span class="col-md-1 offset-md-2 text-xs-center">Prénom :<i class="fa fa-user bigicon"></i></span>
-                                <div class="col-md-8">
-                                    {{ form_widget(form.lastname) }}
-                                    {{ form_errors(form.lastname) }}
-                                </div>
-                            </div>
-
-                            <div class="form-group">
-                                <span class="col-md-1 offset-md-2 text-xs-center">Email :<i class="fa fa-envelope-o bigicon"></i></span>
-                                <div class="col-md-8">
-                                    {{ form_widget(form.email) }}
-                                    {{ form_errors(form.email) }}
-                                </div>
-                            </div>
-
-                            <div class="form-group">
-                                <span class="col-md-1 offset-md-2 text-xs-center">Objet :<i class="fa fa-envelope-o bigicon"></i></span>
-                                <div class="col-md-8">
-                                    {{ form_widget(form.subject) }}
-                                    {{ form_errors(form.subject) }}
-                                </div>
-                            </div>
-
-
-                            <div class="form-group">
-                                <span class="col-md-1 offset-md-2 text-xs-center">Message :<i class="fa fa-pencil-square-o bigicon"></i></span>
-                                <div class="col-md-8">
-                                    {{ form_widget(form.message) }}
-                                    {{ form_errors(form.message) }}
-                                </div>
-                                <div style="display:none">
-                                    {{ form_rest(form) }}
-                                </div>
-                            </div>
-
-                            <div class="form-group">
-                                <div class="col-md-12 text-xs-center">
-                                    <button id="btnSubmit" type="submit" class="btn btn-primary btn-lg">Submit</button>
-                                </div>
-                            </div>
-                            {{ form_end(form) }}
-                        </fieldset>
-                    </form>
-                </div>
-            </div>
-        </div>
-    </div>
-
-    <style>
-        .header {
-            color: #36A0FF;
-            font-size: 27px;
-            padding: 10px;
-        }
-
-        .bigicon {
-            font-size: 35px;
-            color: #36A0FF;
-        }
-    </style>
-
-
-
-
-
+{% block title %}
+    {{ 'title.site.contact' | trans }}
 {% endblock %}
 
+
+    {% block body %}
+
+        <header class="masthead text-center text-white d-flex">
+            <div class="container my-auto">
+                <div class="row">
+                    <div class="col-lg-10 mx-auto">
+                        <h1 class="text-uppercase">
+                            <strong>{{ 'title.welcome' | trans }}</strong>
+                        </h1>
+                    </div>
+                </div>
+            </div>
+        </header>
+
+        <section>
+
+            <div class="container">
+                <div class="row">
+
+                    <div class="col-lg-1">
+                    </div>
+
+                    <div class="col-lg-11 section-progress">
+                        <div class="container">
+
+                            <nav aria-label="breadcrumb">
+                                <ol class="breadcrumb">
+                                    <li class="breadcrumb-item text-success font-weight-bold text-uppercase" style="text-decoration:underline;">{{ 'contact.us' | trans }}</li>
+                                </ol>
+                            </nav>
+
+                            {% for message in app.flashes('notice') %}
+                                <div class="alert alert-success">
+                                    {{ message | trans}}
+                                </div>
+                            {% endfor %}
+
+                            <p>{{ 'contact.paragraph0' | trans }}</p>
+
+                            {{ form_start(form, {'attr': {'class': 'was-validated'}}) }}
+
+                            {{ form_row(form.lastname) }} <br/>
+
+                            {{ form_row(form.firstname) }} <br/>
+
+                            {{ form_row(form.email) }}<br/>
+
+                            {{ form_row(form.subject) }} <br/>
+
+                            {{ form_row(form.message) }}<br/>
+
+                            <div class="row">
+                                <div class="col-sm-1">
+                                </div>
+
+
+                                <div class="col-sm-11">
+                                    <button type="submit" class="btn btn-success">{{ 'button.validate' | trans }}</button>
+                                </div>
+                            </div>
+
+                            {{ form_end(form) }}<br/>
+
+                        </div>
+                    </div>
+
+                </div>
+            </div>
+
+        </section>
+
+    {% endblock %}

@@ -8,16 +8,91 @@
 
 {% block body %}
 
-    
-    {% for message in app.flashes('notice') %}
-        <div class="alert alert-success">
-            {{ message | trans}}
-        </div>
-    {% endfor %}
-    <h1>Confirmation</h1>
-<img src="{{ qr_code_path(message) }}"  alt="qr code de reservation"/>
-<img src="{{ qr_code_url(message, { writer: 'eps' }) }}" />
-<img src="{{ qr_code_data_uri(message, { writer: 'png', size: 150 }) }}" />
 
-{%  endblock %}
+
+    <div class="container">
+        <div class="row">
+
+            <div class="col-lg-1">
+            </div>
+
+            <div class="col-lg-11 section-progress">
+                <div class="container">
+
+                    <nav aria-label="breadcrumb" class="mt-5">
+                        <ol class="breadcrumb">
+                            <li class="breadcrumb-item active"><a class="breadcrumb-item"
+                                                                  href="{{ path('order') }}">{{ 'breadcrumb.first.label' | trans }}</a>
+                            </li>
+                            <li class="breadcrumb-item active"><a class="breadcrumb-item"
+                                                                  href="{{ path('customer') }}">{{ 'breadcrumb.second.label' | trans }}</a>
+                            </li>
+                            <li class="breadcrumb-item active"><a class="breadcrumb-item"
+                                                                  href="{{ path('adress') }}">{{ 'breadcrumb.third.label' | trans }}</a>
+                            </li>
+                            <li class="breadcrumb-item active"><a class="breadcrumb-item"
+                                                                  href="{{ path('pay') }}">{{ 'breadcrumb.fourth.label' | trans }}</a>
+                            </li>
+                            <li class="breadcrumb-item text-success font-weight-bold text-uppercase"
+                                style="text-decoration:underline;">{{ 'breadcrumb.five.label' | trans }}</li>
+                        </ol>
+                    </nav>
+                </div>
+            </div>
+
+        </div>
+    </div>
+
+    <section>
+
+        <div class="container">
+
+            <div class="row">
+                <div class="col-lg-3">
+                </div>
+
+
+                <div class="col-lg-7">
+
+                    <div class="title-recap">
+                        <button type="button" class="btn btn-success text-white">{{ 'validate.visit' | trans }}!
+                        </button>
+                    </div>
+
+                    {{ 'label.bookingcode' | trans }} : {{ visit.bookingID }}<br/><br/>
+
+
+                    {{ 'send.email' | trans }} <span class="num-billet">{{ customer.email }}</span><br/>
+                    <ul>
+                        <li>{{ 'confirmed.payment' | trans }},</li>
+                        <li>{{ 'content.visit' | trans }},</li>
+                        <li>{{ 'unique.bookingcode.visit' | trans }}.</li>
+                    </ul>
+                    {{ 'have.a.good.visit' | trans }} !<br/><br/><br/>
+
+
+                    <div class="title-recap"><a href="https://www.louvre.fr/" target="_blank">
+                            <button type="button"
+                                    class="btn btn-success text-white">{{ 'prepare.your.visit' | trans }}</button>
+                        </a></div>
+                    <ul>
+                        <li><a href="https://www.louvre.fr/expositions" target="_blank">{{ 'exhibitions' | trans }}</a>
+                        </li>
+                        <li><a href="https://www.louvre.fr/visites-guidees"
+                               target="_blank">{{ 'guided.tour' | trans }}</a></li>
+                        <li><a href="https://www.louvre.fr/horaires-tarifs-acces"
+                               target="_blank">{{ 'informations.museum' | trans }}</a></li>
+                    </ul>
+                </div>
+
+
+                <div class="col-lg-2">
+                </div>
+
+            </div>
+        </div>
+    </section>
+
+
+{% endblock %}
     

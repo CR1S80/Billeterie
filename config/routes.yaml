@@ -23,7 +23,7 @@ customer:
 
 adress:
   path: /{_locale}/adress
-  controller: App\Controller\TicketController::adressCustomer
+  controller: App\Controller\TicketController::addressCustomer
   requirements:
     _locale: en|fr
 
@@ -32,3 +32,9 @@ pay:
   controller: App\Controller\TicketController::payStep
   requirements:
     _locale: en|fr
+
+contact:
+  path: /{_locale}/contact
+  controller: App\Controller\TicketController::contactAction
+  requirements:
+      _locale: en|fr

@@ -246,6 +246,18 @@
             "./config/packages/sensio_framework_extra.yaml"
         ]
     },
+    "sensiolabs/security-checker": {
+        "version": "4.0",
+        "recipe": {
+            "repo": "github.com/symfony/recipes",
+            "branch": "master",
+            "version": "4.0",
+            "ref": "05daf6b214e54aed4089f3480f944a67ac3a7889"
+        },
+        "files": [
+            "./config/packages/security_checker.yaml"
+        ]
+    },
     "stripe/stripe-php": {
         "version": "v6.37.0"
     },
@@ -359,6 +371,12 @@
             "./src/Kernel.php"
         ]
     },
+    "symfony/http-client": {
+        "version": "v4.3.1"
+    },
+    "symfony/http-client-contracts": {
+        "version": "v1.1.5"
+    },
     "symfony/http-foundation": {
         "version": "v4.2.8"
     },
@@ -379,6 +397,9 @@
             "version": "1.0",
             "ref": "fadbfe33303a76e25cb63401050439aa9b1a9c7f"
         }
+    },
+    "symfony/mime": {
+        "version": "v4.3.1"
     },
     "symfony/monolog-bridge": {
         "version": "v4.2.8"
@@ -434,6 +455,9 @@
     "symfony/polyfill-php72": {
         "version": "v1.11.0"
     },
+    "symfony/polyfill-php73": {
+        "version": "v1.11.0"
+    },
     "symfony/process": {
         "version": "v4.2.8"
     },
@@ -445,6 +469,15 @@
     },
     "symfony/property-info": {
         "version": "v4.2.8"
+    },
+    "symfony/requirements-checker": {
+        "version": "1.0",
+        "recipe": {
+            "repo": "github.com/symfony/recipes",
+            "branch": "master",
+            "version": "1.0",
+            "ref": "93d0ec48679f5e240d265088305c1ad775723f93"
+        }
     },
     "symfony/routing": {
         "version": "4.2",

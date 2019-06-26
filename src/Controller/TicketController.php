@@ -114,7 +114,6 @@ class TicketController extends AbstractController
 
         $visit = $visitManager->getCurrentVisit();
 
-        dump($visit);
 
 
         $form = $this->createForm(VisitCustomerType::class, $visit);
@@ -149,7 +148,6 @@ class TicketController extends AbstractController
 
 
         $visit = $visitManager->getCurrentVisit();
-        dump($visit->getCustomer()->get(0));
 
         if ($visit->getTotalPrice() > 0) {
 
@@ -173,7 +171,7 @@ class TicketController extends AbstractController
                         "Lastname" => $visit->getCustomer()->get(0)->getLastname(),
                         "Firstname" => $visit->getCustomer()->get(0)->getFirstname(),
                         "NumberTickets" => $visit->getnumberOfTicket(),
-                       // "Tickets" => $visit->getTickets()->get(0),
+
                         ]
 
                     ]);
@@ -190,8 +188,8 @@ class TicketController extends AbstractController
                     return $this->redirect($this->generateUrl('confirmation'));
 
                 } catch (\Exception $e) {
-                    echo 'Exception reçue : ',  $e->getMessage(), "\n";
-                    //$this->addFlash('danger', 'flash.payment.error');
+                   // echo 'Exception reçue : ',  $e->getMessage(), "\n";
+                   $this->addFlash('danger', 'flash.payment.error');
                 }
             }
         } else {
@@ -233,7 +231,9 @@ class TicketController extends AbstractController
 
 
         return $this->render('ticket/confirmation.html.twig', [
-            'message' => $qr
+            'message' => $qr,
+            'customer' => $visit->getCustomer()->get(0),
+            'visit' => $visit,
 
         ]);
     }
@@ -252,7 +252,6 @@ class TicketController extends AbstractController
         $form->handleRequest($request);
 
         if ($form->isSubmitted() && $form->isValid()) {
-            dump($form->getData());
             $emailService->contact($form->getData());
             $this->addFlash('notice', 'message.contact.send');
             return $this->redirect($this->generateUrl('contact'));

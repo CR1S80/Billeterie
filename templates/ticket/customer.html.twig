@@ -8,13 +8,11 @@
 
     {% block body %}
 
-        <div class="bg"
-             style="background:url({{ asset('build/images/louvre-billet.png') }}) fixed no-repeat !important;">
-            <div class="home m-auto" style="overflow: unset;">
+
 
 
                 <div class="container">
-                    <nav aria-label="breadcrumb">
+                    <nav aria-label="breadcrumb" class="mt-5">
                         <ol class="breadcrumb">
                             <li class="breadcrumb-item active"><a class="breadcrumb-item"
                                                                   href="{{ path('order') }}">{{ 'breadcrumb.first.label' | trans }}</a>
@@ -113,9 +111,7 @@
                         </div>
                     </div>
                 </div>
-            </div>
 
-        </div>
 
 
 

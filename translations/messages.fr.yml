@@ -93,9 +93,12 @@ invoice.informations: "Adresse de facturation"
 title.site.pay: 'Paiement de la commande'
 payment.visit: 'Récapitulatif de votre commande'
 total.invoice: 'Total de la commande'
-pay.order: "Je paie la commande"
+ipay.order: "Je paie la commande"
+pay.order: "Payer"
+payto.order: "Paiement de :"
+annul.pay: "Fermer"
 louvre.museum: "Musée du Louvre"
-ticketing: "Billeterie"
+ticketing: "Billetterie"
 flash.payment.error: "Une erreur est survenue lors du paiement en ligne. Veuillez contacter notre administrateur."
 
 
@@ -147,6 +150,7 @@ new.message: "Voici un nouveau message envoyé par un internaute via la page Con
 lastname.contact: "Nom"
 firstname.contact: "Prénom"
 email.contact: "Email"
+subject.contact: "Objet"
 message.contact: "Message"
 
 #EmailService
@@ -158,6 +162,7 @@ email.subject_contact_page: "Site du Musée du Louvre - Page Contact"
 label.lastname: 'Nom'
 label.firstname: 'Prénom'
 label.email: 'Email'
+label.subject: 'Objet'
 label.message: 'Message'
 
 

@@ -6,28 +6,30 @@
 
     {% block body %}
 
-        <div class="bg"
-             style="background:url({{ asset('build/images/louvre-billet.png') }}) fixed no-repeat !important;">
-            <div class="home m-auto" style="overflow: unset;">
 
+        <div class="container">
+            <nav aria-label="breadcrumb" class="mt-5">
+                <ol class="breadcrumb">
+                    <li class="breadcrumb-item active"><a class="breadcrumb-item"
+                                                          href="{{ path('order') }}">{{ 'breadcrumb.first.label' | trans }}</a>
+                    </li>
+                    <li class="breadcrumb-item active"><a class="breadcrumb-item"
+                                                          href="{{ path('customer') }}">{{ 'breadcrumb.second.label' | trans }}</a>
+                    </li>
+                    <li class="breadcrumb-item text-success font-weight-bold text-uppercase"
+                        style="text-decoration:underline;">{{ 'breadcrumb.third.label' | trans }}</li>
+                    <li class="breadcrumb-item active">{{ 'breadcrumb.fourth.label' | trans }}</li>
+                    <li class="breadcrumb-item active">{{ 'breadcrumb.five.label' | trans }}</li>
+                </ol>
+            </nav>
+            <div class="row">
 
-                <div class="container">
-                    <nav aria-label="breadcrumb">
-                        <ol class="breadcrumb">
-                            <li class="breadcrumb-item active"><a class="breadcrumb-item"
-                                                                  href="{{ path('order') }}">{{ 'breadcrumb.first.label' | trans }}</a>
-                            </li>
-                            <li class="breadcrumb-item active"><a class="breadcrumb-item"
-                                                                  href="{{ path('customer') }}">{{ 'breadcrumb.second.label' | trans }}</a>
-                            </li>
-                            <li class="breadcrumb-item text-success font-weight-bold text-uppercase"
-                                style="text-decoration:underline;">{{ 'breadcrumb.third.label' | trans }}</li>
-                            <li class="breadcrumb-item active">{{ 'breadcrumb.fourth.label' | trans }}</li>
-                            <li class="breadcrumb-item active">{{ 'breadcrumb.five.label' | trans }}</li>
-                        </ol>
-                    </nav>
-                    <div class="row">
-                        <div class="col-8 p-0">
+                <div class="col-lg-1">
+                </div>
+
+                <div class="col-lg-11">
+                    <div class="container">
+                        <div class="form-group">
 
 
                             {{ form_start(form, {'attr': {'class': 'was-validated'}}) }}
@@ -53,80 +55,26 @@
 
                                 {{ form_row(ticket.country) }}<br/>
 
-
-
-                                <div class="col-sm-11">
-                                    <button type="submit"
-                                            class="btn btn-success">{{ 'button.validate' | trans }}</button>
-                                </div>
-
-                                {{ form_end(form) }}<br/>
-
                             {% endfor %}
 
-
-                        </div>
-                        <div class="col-4 p-0">
-
-                            <div class="well" style="background-color: #f5f5f5">
-                                <div class="card-header">{{ 'hours.site' | trans }}</div>
-                                <div class="card-body text-secondary">
-                                    <ul>
-                                        <li>{{ 'hours.days.1' | trans }}</li>
-                                        <li>{{ 'hours.days.2' | trans }}</li>
-                                        <li>{{ 'hours.days.3' | trans }}</li>
-                                        <li>{{ 'hours.days.4' | trans }}</li>
-                                        <li>{{ 'hours.days.5' | trans }}</li>
-                                        <li>{{ 'hours.days.6' | trans }}</li>
-                                        <li>{{ 'hours.days.0' | trans }}</li>
-                                    </ul>
-                                </div>
-                                <br>
-                                <div class="card-header">{{ 'price' | trans }}</div>
-                                <div class="card-body text-secondary">
-                                    <ul>
-                                        <li>{{ 'first.price' | trans }}{{ constant('App\\Entity\\Ticket::PRICE_ADULT') }}
-                                            €
-                                        </li>
-                                        <li>{{ 'second.price' | trans }}{{ constant('App\\Entity\\Ticket::PRICE_CHILD') }}
-                                            €
-                                        </li>
-                                        <li>{{ 'third.price' | trans }}{{ constant('App\\Entity\\Ticket::PRICE_SENIOR') }}
-                                            €
-                                        </li>
-                                        <li>{{ 'fourth.price' | trans }}{{ constant('App\\Entity\\Ticket::PRICE_DISCOUNT') }}
-                                            €
-                                        </li>
-                                    </ul>
-                                </div>
-                                <br>
-                                <div class="card-header">{{ 'condition' | trans }}</div>
-                                <div class="card-body text-secondary">
-                                    <ul>
-                                        <li>(1) {{ 'discount.second.condition' | trans }}
-                                        </li>
-                                        <li>{{ 'discount.third.condition' | trans }}</li>
-
-
-                                    </ul>
-                                </div>
+                            <div class="col-sm-11">
+                                <button type="submit"
+                                        class="btn btn-success">{{ 'button.validate' | trans }}</button>
                             </div>
 
+                            {{ form_end(form) }}<br/>
 
+
+                            <div class="row">
+                                <div class="col-sm-1">
+                                </div>
+
+                            </div>
                         </div>
                     </div>
                 </div>
             </div>
-
         </div>
-
-
-
-
-
-
-
-
 
 
     {% endblock %}

@@ -89,7 +89,10 @@ invoice.informations: "Billing adress"
 title.site.pay: 'Payment for the order'
 payment.visit: 'Your order summary'
 total.invoice: 'Total amount of the order'
-pay.order: "I pay the order"
+ipay.order: "I pay the order"
+annul.pay: "Close"
+pay.order: "Pay out"
+payto.order: "payment of :"
 louvre.museum: "Louvre Museum"
 ticketing: "Ticketing"
 flash.payment.error: "An error has occured. Please contact our webmaster."
@@ -143,6 +146,7 @@ new.message: "This is a new message sent by a visitor with Contact Page of the t
 lastname.contact: "Lastname"
 firstname.contact: "Firstname"
 email.contact: "Email"
+subject.contact: "Subject"
 message.contact: "Message"
 
 #EmailService
@@ -154,6 +158,7 @@ email.subject_contact_page: "Louvre Museum website - Contact Page"
 label.lastname: 'Lastname'
 label.firstname: 'Firstname'
 label.email: 'Email'
+label.subject: 'Subject'
 label.message: 'Message'
 
 
