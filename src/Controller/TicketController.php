@@ -47,6 +47,7 @@ class TicketController extends AbstractController
      * @param RequestAlias $request
      * @param VisitManager $visitManager
      * @return Response
+     * @throws \Exception
      */
     public function order(RequestAlias $request, VisitManager $visitManager): Response
     {

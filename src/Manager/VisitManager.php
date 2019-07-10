@@ -27,6 +27,7 @@ class VisitManager
     /**
      * Initialisation de la visite et de la session
      * @return Visit
+     * @throws \Exception
      */
     public function initVisit()
     {
@@ -113,7 +114,7 @@ class VisitManager
             $price = Ticket::PRICE_SENIOR;
         }
         // Verifier reduction
-        if($ticket->getReducedPrice() === true && $price > Ticket::PRICE_DISCOUNT ){
+        if($ticket->getReducedPrice() === true && $price > Ticket::PRICE_DISCOUNT && $price != Ticket::PRICE_SENIOR ){
             $price = Ticket::PRICE_DISCOUNT;
         }
         //Appliquer coeff journée/demi journée

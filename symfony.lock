@@ -108,9 +108,6 @@
     "endroid/qr-code-bundle": {
         "version": "3.3.3"
     },
-    "facebook/webdriver": {
-        "version": "1.6.0"
-    },
     "fig/link-util": {
         "version": "1.0.0"
     },
@@ -246,18 +243,6 @@
             "./config/packages/sensio_framework_extra.yaml"
         ]
     },
-    "sensiolabs/security-checker": {
-        "version": "4.0",
-        "recipe": {
-            "repo": "github.com/symfony/recipes",
-            "branch": "master",
-            "version": "4.0",
-            "ref": "05daf6b214e54aed4089f3480f944a67ac3a7889"
-        },
-        "files": [
-            "./config/packages/security_checker.yaml"
-        ]
-    },
     "stripe/stripe-php": {
         "version": "v6.37.0"
     },
@@ -288,9 +273,6 @@
             "./bin/console",
             "./config/bootstrap.php"
         ]
-    },
-    "symfony/contracts": {
-        "version": "v1.1.0"
     },
     "symfony/css-selector": {
         "version": "v4.2.8"
@@ -371,9 +353,6 @@
             "./src/Kernel.php"
         ]
     },
-    "symfony/http-client": {
-        "version": "v4.3.1"
-    },
     "symfony/http-client-contracts": {
         "version": "v1.1.5"
     },
@@ -398,9 +377,6 @@
             "ref": "fadbfe33303a76e25cb63401050439aa9b1a9c7f"
         }
     },
-    "symfony/mime": {
-        "version": "v4.3.1"
-    },
     "symfony/monolog-bridge": {
         "version": "v4.2.8"
     },
@@ -423,9 +399,6 @@
     },
     "symfony/orm-pack": {
         "version": "v1.0.6"
-    },
-    "symfony/panther": {
-        "version": "v0.3.0"
     },
     "symfony/phpunit-bridge": {
         "version": "4.1",
@@ -453,9 +426,6 @@
         "version": "v1.11.0"
     },
     "symfony/polyfill-php72": {
-        "version": "v1.11.0"
-    },
-    "symfony/polyfill-php73": {
         "version": "v1.11.0"
     },
     "symfony/process": {

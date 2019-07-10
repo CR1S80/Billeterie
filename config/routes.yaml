@@ -38,3 +38,4 @@ contact:
   controller: App\Controller\TicketController::contactAction
   requirements:
       _locale: en|fr
+
